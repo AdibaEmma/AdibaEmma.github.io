@@ -1,0 +1,45 @@
+
+/* Services Section */
+.services .title::after {
+    content: "what i do";
+    background-color: #111;
+}
+
+.services .services-content .card {
+    width: calc(33% - 20px);
+    background-color: #222;
+    text-align: center;
+    border-radius: 6px;
+    padding: 20px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.services .services-content .card .box {
+    transition: all 0.3s ease;
+}
+
+.services .services-content .card:hover {
+    background-color: #ff652f;
+    color: #fff;
+}
+
+.services .services-content .card:hover .box {
+    transform: scale(1.05);
+}
+
+.services .services-content .card i {
+    font-size: 3.125rem;
+    color: #ff652f;
+    transition: color 0.3s ease;
+}
+
+.services .services-content .card:hover i {
+    color: #fff;
+}
+
+.services .services-content .card .text {
+    font-size: 1.375rem;
+    font-weight: 500;
+    margin: 10px 0 7px;
+}

@@ -1,0 +1,29 @@
+/* Skills Section */
+.skills .title::after {
+    content: "what i use";
+}
+
+.skills .skills-content .text {
+    color: #ff652f;
+}
+
+.skills .skills-content .column {
+    width: calc(33% - 20px);
+}
+
+.skills .skills-content .skill {
+    margin-top: 25px;
+    display: flex;
+    justify-items: space-between;
+}
+
+.skills .skills-content .skill p {
+    font-size: 18px;
+    font-weight: bold;
+    align-self: center;
+}
+
+.skills .skills-content .skill i {
+    font-size: 40px;
+    padding-right: 20px;
+}

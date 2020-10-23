@@ -1,0 +1,71 @@
+/* Navbar Section */
+.navbar {
+    width: 100%;
+    position: fixed;
+    padding: 30px 0;
+    font-family: 'Ubuntu', sans-serif;
+    z-index: 999;
+}
+
+.navbar.sticky {
+    padding: 15px 0;
+    background-color: #ff652f;
+}
+
+.navbar .max-width {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar .nav-logo a {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.navbar .nav-logo a span {
+    color: #ff652f;
+    transition: all 0.3s ease;
+}
+
+.navbar.sticky .nav-logo a span {
+    color: #fff;
+}
+
+.navbar .nav-menu li {
+    list-style: none;
+    display: inline-block;
+}
+
+.navbar .nav-menu li a {
+    display: block;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 25px;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-menu li a:hover {
+    color: #ff652f;
+}
+
+.navbar.sticky .nav-menu li a:hover {
+    color: rgb(245, 156, 174);
+}
+
+/* Menu Bar Styling */
+.menu-btn {
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+
+.menu-btn i:hover {
+    color: #ff652f;
+}
+
+.navbar.sticky .menu-btn i:hover {
+    color: #222;
+}

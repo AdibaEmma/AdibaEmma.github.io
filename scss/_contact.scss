@@ -6,7 +6,7 @@
     }
 
     .contact-content {
-        .column{
+        .column {
             width: calc(50% - 30px);
         }
 
@@ -17,7 +17,7 @@
         }
 
         .left {
-            p{
+            p {
                 text-align: justify;
             }
 
@@ -50,68 +50,73 @@
         }
     }
 
-    .right form .fields {
-        display: flex;
-    }
 
-    .right form .field,
-    .right form .fields .field {
-        height: 2.8125rem;
-        width: 100%;
-        margin-bottom: 15px;
-    }
+    .right {
+        form {
+            .fields {
+                display: flex;
+            }
 
-    .right form .message {
-        height: 90px;
-    }
+            .field,
+            .fields .field {
+                height: 2.8125rem;
+                width: 100%;
+                margin-bottom: 15px;
+            }
 
-    .right form .name {
-        margin-right: 10px;
-    }
+            .message {
+                height: 90px;
+            }
 
-    .right form .email {
-        margin-left: 10px;
-    }
+            .name {
+                margin-right: 10px;
+            }
 
-    .right form .field input,
-    .right form .message textarea {
-        height: 100%;
-        width: 100%;
-        border: 1px solid #333;
-        border-radius: 6px;
-        outline: none;
-        padding: 0 15px;
-        font-size: 17px;
-        font-family: 'Poppins', sans-serif;
-        background-color: #222;
-        color: #fff;
-    }
+            .email {
+                margin-left: 10px;
+            }
 
-    .right form .message textarea {
-        padding-top: 10px;
-        resize: none;
-    }
+            .field input,
+            .message textarea {
+                height: 100%;
+                width: 100%;
+                border: 1px solid #333;
+                border-radius: 6px;
+                outline: none;
+                padding: 0 15px;
+                font-size: 17px;
+                font-family: 'Poppins', sans-serif;
+                background-color: #222;
+                color: #fff;
+            }
 
-    .right form .button {
-        height: 45px;
-        width: 170px;
-    }
+            .message textarea {
+                padding-top: 10px;
+                resize: none;
+            }
 
-    .right form .button button {
-        height: 100%;
-        width: 100%;
-        border: 2px solid #ff652f;
-        border-radius: 6px;
-        background-color: #ff652f;
-        color: #fff;
-        font-size: 20px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+            .button {
+                height: 45px;
+                width: 170px;
+            }
 
-    .right form .button button:hover {
-        background: none;
-        color: #ff652f;
+            .button button {
+                height: 100%;
+                width: 100%;
+                border: 2px solid #ff652f;
+                border-radius: 6px;
+                background-color: #ff652f;
+                color: #fff;
+                font-size: 20px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .button button:hover {
+                background: none;
+                color: #ff652f;
+            }
+        }
     }
 }

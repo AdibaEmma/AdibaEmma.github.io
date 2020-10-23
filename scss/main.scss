@@ -7,6 +7,7 @@
 @import 'services';
 @import 'skills';
 @import 'contact';
+@import 'footer';
 
 .max-width {
     max-width: 81.25rem;
@@ -94,41 +95,7 @@ section .title::after {
 
 .white-section p {
     color: rgb(116, 107, 107);
-}
-
-/* Footer Section */
-footer {
-    font-family: 'Poppins', sans-serif;
-    padding: 20px 23px;
-    text-align: center;
-    color: #333;
-    border-top: 5px solid $primary-color;
-}
-
-footer span a {
-   color: $primary-color;
-   text-decoration: none;
-}
-
-footer span a:hover {
-    text-decoration: underline;
-}
-
-footer .social-icons {
-    margin-bottom: 15px;
-}
-
-footer .social-icons .social-icon {
-    font-size: 18px;
-    margin-right: 15px;
-    transition: all 0.3s ease;
-}
-
-footer .social-icons .social-icon:hover {
-   color: $primary-color;
-}
- 
-
+} 
 
 
 /* Media Queries */

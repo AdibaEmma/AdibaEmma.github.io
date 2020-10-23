@@ -5,54 +5,83 @@
     padding: 30px 0;
     font-family: 'Ubuntu', sans-serif;
     z-index: 999;
-}
 
-.navbar.sticky {
-    padding: 15px 0;
-    background-color: $primary-color;
-}
+    &.sticky {
+        padding: 15px 0;
+        background-color: $primary-color;
+    }
 
-.navbar .max-width {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    .max-width {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-.navbar .nav-logo a {
-    font-size: 1.875rem;
-    font-weight: 600;
-    color: #fff;
-}
+    .nav-logo {
+        a {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: #fff;
+        }
+    }
 
-.navbar .nav-logo a span {
-    color: $primary-color;
-    transition: all 0.3s ease;
-}
+    .nav-logo {
+        a {
+            span {
+                color: $primary-color;
+                transition: all 0.3s ease;
+            }
+        }
+    }
 
-.navbar.sticky .nav-logo a span {
-    color: #fff;
-}
+    &.sticky {
+        .nav-logo {
+            a {
+                span {
+                    color: #fff;
+                }
+            }
+        }
+    }
 
-.navbar .nav-menu li {
-    list-style: none;
-    display: inline-block;
-}
 
-.navbar .nav-menu li a {
-    display: block;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    margin-left: 25px;
-    transition: color 0.3s ease;
-}
+    .nav-menu {
+        li {
+            list-style: none;
+            display: inline-block;
+        }
+    }
 
-.navbar .nav-menu li a:hover {
-    color: $primary-color;
-}
+    .nav-menu {
+        li {
+            a {
+                display: block;
+                color: #fff;
+                font-size: 18px;
+                font-weight: 500;
+                margin-left: 25px;
+                transition: color 0.3s ease;
+            }
+        }
+    }
 
-.navbar.sticky .nav-menu li a:hover {
-    color: rgb(245, 156, 174);
+    .nav-menu li a:hover {
+        color: $primary-color;
+    }
+
+    &.sticky {
+        .nav-menu {
+            li {
+                a:hover {
+                    color: rgb(235, 12, 86);
+                }
+            }
+        }
+
+        .menu-btn i:hover {
+            color: #222;
+        }
+    }
 }
 
 /* Menu Bar Styling */
@@ -60,12 +89,8 @@
     color: #fff;
     cursor: pointer;
     display: none;
-}
 
-.menu-btn i:hover {
-    color: $primary-color;
-}
-
-.navbar.sticky .menu-btn i:hover {
-    color: #222;
+    i:hover {
+        color: $primary-color;
+    }
 }

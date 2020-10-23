@@ -9,7 +9,7 @@
 
 .navbar.sticky {
     padding: 15px 0;
-    background-color: #ff652f;
+    background-color: $primary-color;
 }
 
 .navbar .max-width {
@@ -25,7 +25,7 @@
 }
 
 .navbar .nav-logo a span {
-    color: #ff652f;
+    color: $primary-color;
     transition: all 0.3s ease;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .navbar .nav-menu li a:hover {
-    color: #ff652f;
+    color: $primary-color;
 }
 
 .navbar.sticky .nav-menu li a:hover {
@@ -63,7 +63,7 @@
 }
 
 .menu-btn i:hover {
-    color: #ff652f;
+    color: $primary-color;
 }
 
 .navbar.sticky .menu-btn i:hover {

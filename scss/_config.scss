@@ -1,5 +1,6 @@
 $primary-color:  #ff652f;
 $secondary-color: #333;
+$accent-color: #fff;
 
 * {
     margin: 0;
@@ -11,4 +12,20 @@ $secondary-color: #333;
 
 html {
     scroll-behavior: smooth;
+}
+
+#about,
+#services,
+#skills,
+#contact {
+    padding: 100px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+@mixin theme($color) {
+    @if lightness($color > 40) {
+        color: #ff652f;
+    } @else {
+        color: #fff;
+    }
 }

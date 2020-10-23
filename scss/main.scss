@@ -18,12 +18,12 @@
     position: fixed;
     height: 45px;
     width: 42px;
-    background-color: #ff652f;
+    background-color: $primary-color;
     right: 30px;
     bottom: 10px;
     text-align: center;
     line-height: 45px;
-    color: #fff;
+    color: $accent-color;
     z-index: 999;
     font-size: 30px;
     border-radius: 6px;
@@ -67,18 +67,10 @@ section .title::after {
     bottom: -12px;
     left: 50%;
     font-size: 1.25rem;
-    color: #ff652f;
+    color: $primary-color;
     padding: 5px;
-    background: #fff;
+    background: $accent-color;
     transform: translateX(-50%);
-}
-
-#about,
-#services,
-#skills,
-#contact {
-    padding: 100px 0;
-    font-family: 'Poppins', sans-serif;
 }
 
 .about .about-content,
@@ -92,12 +84,12 @@ section .title::after {
 }
 
 .colored-section .title::before {
-    background-color: #fff;
+    background-color: $accent-color;
 }
 
 .colored-section {
     background-color: #111;
-    color: #fff;
+    color: $accent-color;
 }
 
 .white-section p {
@@ -110,11 +102,11 @@ footer {
     padding: 20px 23px;
     text-align: center;
     color: #333;
-    border-top: 5px solid #ff652f;
+    border-top: 5px solid $primary-color;
 }
 
 footer span a {
-   color: #ff652f;
+   color: $primary-color;
    text-decoration: none;
 }
 
@@ -133,7 +125,7 @@ footer .social-icons .social-icon {
 }
 
 footer .social-icons .social-icon:hover {
-   color: #ff652f;
+   color: $primary-color;
 }
  
 
@@ -203,7 +195,7 @@ footer .social-icons .social-icon:hover {
 
 
     .navbar.sticky .nav-menu li a:hover {
-        color: #ff652f;
+        color: $primary-color;
     }
 
     .home .home-content {

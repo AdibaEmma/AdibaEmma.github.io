@@ -20,7 +20,7 @@
 }
 
 .services .services-content .card:hover {
-    background-color: #ff652f;
+    background-color: $primary-color;
     color: #fff;
 }
 
@@ -30,7 +30,7 @@
 
 .services .services-content .card i {
     font-size: 3.125rem;
-    color: #ff652f;
+    color: $primary-color;
     transition: color 0.3s ease;
 }
 

@@ -11,6 +11,14 @@ html {
   scroll-behavior: smooth;
 }
 
+#about,
+#services,
+#skills,
+#contact {
+  padding: 100px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
 /* Navbar Section */
 .navbar {
   width: 100%;
@@ -524,14 +532,6 @@ section .title::after {
   background: #fff;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-}
-
-#about,
-#services,
-#skills,
-#contact {
-  padding: 100px 0;
-  font-family: 'Poppins', sans-serif;
 }
 
 .about .about-content,

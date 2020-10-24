@@ -1,3 +1,3 @@
 # My Portfolio
 
-https://AdibaEmma.github.io
+https://adibaemma.github.io/dist

@@ -337,13 +337,7 @@ html {
 }
 
 .contact .contact-content .column {
-  width: calc(50% - 30px);
-}
-
-.contact .contact-content .text {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 10px;
+  width: 100%;
 }
 
 .contact .contact-content .left p {
@@ -351,63 +345,79 @@ html {
 }
 
 .contact .contact-content .left .icons {
-  margin: 10px 0;
-}
-
-.contact .contact-content .row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 4.1rem;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  margin: 10px 0;
+  padding: 30px 60px;
 }
 
-.contact .contact-content .row .info {
-  margin-left: 30px;
+.contact .contact-content .left .row {
+  width: 220px;
+  height: 8rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 2px solid;
+  border-color: #333 #ff652f #ff652f #ff652f;
+  border-radius: 6px;
+  -webkit-box-shadow: #ff652f;
+          box-shadow: #ff652f;
+  text-align: center;
+  margin-right: 30px;
+  background: #222;
 }
 
-.contact .contact-content .row .info .head {
+.contact .contact-content .left .row .info {
+  padding: 0 15px;
+  margin-top: 0;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.contact .contact-content .left .row .info .head {
   font-weight: 500;
 }
 
-.contact .contact-content .row .info .sub-title {
+.contact .contact-content .left .row .info .sub-title {
   color: #c7c7c7;
 }
 
-.contact .contact-content .row i {
-  font-size: 25px;
+.contact .contact-content .left .row i {
+  position: relative;
+  bottom: 15px;
+  font-size: 35px;
   color: #ff652f;
 }
 
-.contact .right form .fields {
+.contact .contact-content .right form .fields {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.contact .right form .field,
-.contact .right form .fields .field {
+.contact .contact-content .right form .field,
+.contact .contact-content .right form .fields .field {
   height: 2.8125rem;
   width: 100%;
   margin-bottom: 15px;
 }
 
-.contact .right form .message {
+.contact .contact-content .right form .message {
   height: 90px;
 }
 
-.contact .right form .name {
+.contact .contact-content .right form .name {
   margin-right: 10px;
 }
 
-.contact .right form .email {
+.contact .contact-content .right form .email {
   margin-left: 10px;
 }
 
-.contact .right form .field input,
-.contact .right form .message textarea {
+.contact .contact-content .right form .field input,
+.contact .contact-content .right form .message textarea {
   height: 100%;
   width: 100%;
   border: 1px solid #333;
@@ -420,17 +430,17 @@ html {
   color: #fff;
 }
 
-.contact .right form .message textarea {
+.contact .contact-content .right form .message textarea {
   padding-top: 10px;
   resize: none;
 }
 
-.contact .right form .button {
+.contact .contact-content .right form .button {
   height: 45px;
   width: 170px;
 }
 
-.contact .right form .button button {
+.contact .contact-content .right form .button button {
   height: 100%;
   width: 100%;
   border: 2px solid #ff652f;
@@ -444,7 +454,7 @@ html {
   transition: all 0.3s ease;
 }
 
-.contact .right form .button button:hover {
+.contact .contact-content .right form .button button:hover {
   background: none;
   color: #ff652f;
 }
@@ -463,7 +473,7 @@ footer span a {
   text-decoration: none;
 }
 
-footer span a:hover {
+footer span:hover {
   text-decoration: underline;
 }
 
@@ -478,27 +488,27 @@ footer .social-icons .social-icon {
   transition: all 0.3s ease;
 }
 
-footer .twitter {
+footer .social-icons .twitter {
   color: #00aced;
   text-decoration: none;
 }
 
-footer .linkedIn {
+footer .social-icons .linkedIn {
   color: #007bb6;
   text-decoration: none;
 }
 
-footer .facebook {
+footer .social-icons .facebook {
   color: #3b5998;
   text-decoration: none;
 }
 
-footer .github {
+footer .social-icons .github {
   color: #211F1F;
   text-decoration: none;
 }
 
-footer .social-icons .social-icon:hover {
+footer .social-icons a:hover {
   color: #ff652f;
 }
 
@@ -699,7 +709,7 @@ section .title::after {
     margin-bottom: 20px;
   }
   .skills .skills-content .column,
-  .contact .contact-content .column {
+  .contact .contact-content .row {
     width: calc(50% - 10px);
     margin-bottom: 30px;
   }
@@ -711,6 +721,16 @@ section .title::after {
   .home .social-icons .social-icon {
     padding: 0 30px;
     font-size: 45px;
+  }
+  .contact .contact-content .left .icons {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .contact .contact-content .left .row {
+    width: 50%;
+    margin-bottom: 15px;
   }
 }
 
@@ -741,6 +761,16 @@ section .title::after {
   .skills .skills-content .column,
   .contact .contact-content .column {
     width: 100%;
+  }
+  .contact .contact-content .icons {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .contact .contact-content .row {
+    width: 100%;
+    margin-bottom: 15px;
   }
   footer .social-icons .social-icon {
     font-size: 20px;

@@ -212,7 +212,7 @@ section .title::after {
     }
 
     .skills .skills-content .column,
-    .contact .contact-content .column {
+    .contact .contact-content .row{
         width: calc(50% - 10px);
         margin-bottom: 30px;
     }
@@ -226,6 +226,15 @@ section .title::after {
     .home .social-icons .social-icon {
         padding: 0 30px;
         font-size: 45px;
+    }
+
+    .contact .contact-content .left .icons {
+        flex-direction: column;
+    }    
+
+    .contact .contact-content .left .row {
+        width: 50%;
+        margin-bottom: 15px;
     }
 
 }
@@ -264,6 +273,15 @@ section .title::after {
     .skills .skills-content .column,
     .contact .contact-content .column {
         width: 100%;
+    }
+
+    .contact .contact-content .icons {
+        flex-direction: column;
+    }    
+
+    .contact .contact-content .row {
+        width: 100%;
+        margin-bottom: 15px;
     }
 
     footer .social-icons .social-icon {

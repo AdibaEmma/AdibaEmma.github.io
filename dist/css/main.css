@@ -730,7 +730,6 @@ footer .social-icons a:hover {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    padding: 30px 0;
   }
 }
 
@@ -759,8 +758,9 @@ footer .social-icons a:hover {
     width: 100%;
   }
   .skills .skills-content .column,
-  .contact .contact-content .column {
+  .contact .contact-content .icons .row {
     width: 100%;
+    margin-bottom: 35px;
     padding-bottom: 0;
   }
   .contact .contact-content .left .icons {
@@ -769,10 +769,6 @@ footer .social-icons a:hover {
         -ms-flex-direction: column;
             flex-direction: column;
     margin-bottom: 0;
-  }
-  .contact .contact-content .left .row {
-    width: 100%;
-    margin-bottom: 35px;
   }
   footer .social-icons .social-icon {
     font-size: 20px;

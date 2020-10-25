@@ -14,12 +14,12 @@
             border-radius: 6px;
             padding: 20px 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            @include transition(all, 0.3s, ease)
         }
 
         .card {
             .box {
-                transition: all 0.3s ease;
+                @include transition(all, 0.3s, ease)
             }
 
             &:hover {
@@ -38,7 +38,7 @@
             i {
                 font-size: 3.125rem;
                 color: $primary-color;
-                transition: color 0.3s ease;
+                @include transition(color, 0.3s, ease)
             }
 
             .text {

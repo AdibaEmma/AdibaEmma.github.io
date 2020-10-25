@@ -22,10 +22,15 @@ html {
     font-family: 'Poppins', sans-serif;
 }
 
-@mixin theme($color) {
+
+@mixin transition($transition-type, $duration ,$ease-type) {
+    transition: $transition-type $duration $ease-type;
+}
+
+@function theme($color) {
     @if lightness($color > 40) {
-        color: #ff652f;
+        @return #ff652f;
     } @else {
-        color: #fff;
+        @return #fff;
     }
 }

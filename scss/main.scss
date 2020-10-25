@@ -2,12 +2,7 @@
 
 @import 'config';
 @import 'navbar';
-@import 'home';
-@import 'about';
-@import 'services';
-@import 'skills';
-@import 'contact';
-@import 'footer';
+
 
 .max-width {
     max-width: 81.25rem;
@@ -74,6 +69,9 @@ section .title::after {
     transform: translateX(-50%);
 }
 
+@import 'home';
+
+
 .about .about-content,
 .services .services-content, 
 .skills .skills-content,
@@ -96,6 +94,13 @@ section .title::after {
 .white-section p {
     color: rgb(116, 107, 107);
 } 
+
+@import 'about';
+@import 'services';
+@import 'skills';
+@import 'contact';
+@import 'footer';
+
 
 
 /* Media Queries */
@@ -212,7 +217,7 @@ section .title::after {
     }
 
     .skills .skills-content .column,
-    .contact .contact-content .row{
+    .contact .contact-content .icons .row {
         width: calc(50% - 10px);
         margin-bottom: 30px;
     }
@@ -228,14 +233,12 @@ section .title::after {
         font-size: 45px;
     }
 
-    .contact .contact-content .left .icons {
-        flex-direction: column;
-    }    
 
-    .contact .contact-content .left .row {
-        width: 50%;
-        margin-bottom: 15px;
-    }
+    .contact .contact-content .icons {
+        flex-direction: column;
+        padding: 30px 0;
+        
+    }    
 
 }
 
@@ -273,15 +276,17 @@ section .title::after {
     .skills .skills-content .column,
     .contact .contact-content .column {
         width: 100%;
+        padding-bottom: 0;
     }
 
-    .contact .contact-content .icons {
+    .contact .contact-content .left .icons {
         flex-direction: column;
+        margin-bottom: 0;
     }    
 
-    .contact .contact-content .row {
+    .contact .contact-content .left .row {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: 35px;
     }
 
     footer .social-icons .social-icon {

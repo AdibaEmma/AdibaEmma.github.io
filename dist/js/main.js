@@ -27,7 +27,11 @@ $(document).ready(function () {
     });
 
 
-    //  Form validation
+    //  File Download
+    $('#downloadCV').click(function(e) {
+        e.preventDefault();
+        wind.location.href = "cv.txt";
+    });    
 
 });
 

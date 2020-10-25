@@ -442,9 +442,10 @@ section .title::after {
 }
 
 .contact .contact-content .column .icons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (25%)[4];
+      grid-template-columns: repeat(4, 25%);
   margin: 10px 0;
   padding-top: 30px;
   -webkit-box-pack: center;
@@ -453,11 +454,7 @@ section .title::after {
 }
 
 .contact .contact-content .column .row {
-  width: 220px;
   height: 8rem;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
   border: 2px solid;
   border-color: #333 #ff652f #ff652f #ff652f;
   border-radius: 6px;
@@ -469,6 +466,7 @@ section .title::after {
 }
 
 .contact .contact-content .column .row .info {
+  font-size: 1rem;
   padding: 0 15px;
   margin-top: 0;
   -ms-flex-item-align: center;
@@ -481,81 +479,13 @@ section .title::after {
 }
 
 .contact .contact-content .column .row .info .sub-title {
-  color: #c7c7c7;
+  color: #999;
 }
 
 .contact .contact-content .column .row i {
   position: relative;
   bottom: 15px;
-  font-size: 35px;
-  color: #ff652f;
-}
-
-.contact .contact-content .right form .fields {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.contact .contact-content .right form .field,
-.contact .contact-content .right form .fields .field {
-  height: 2.8125rem;
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-.contact .contact-content .right form .message {
-  height: 90px;
-}
-
-.contact .contact-content .right form .name {
-  margin-right: 10px;
-}
-
-.contact .contact-content .right form .email {
-  margin-left: 10px;
-}
-
-.contact .contact-content .right form .field input,
-.contact .contact-content .right form .message textarea {
-  height: 100%;
-  width: 100%;
-  border: 1px solid #333;
-  border-radius: 6px;
-  outline: none;
-  padding: 0 15px;
-  font-size: 17px;
-  font-family: 'Poppins', sans-serif;
-  background-color: #222;
-  color: #fff;
-}
-
-.contact .contact-content .right form .message textarea {
-  padding-top: 10px;
-  resize: none;
-}
-
-.contact .contact-content .right form .button {
-  height: 45px;
-  width: 170px;
-}
-
-.contact .contact-content .right form .button button {
-  height: 100%;
-  width: 100%;
-  border: 2px solid #ff652f;
-  border-radius: 6px;
-  background-color: #ff652f;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-
-.contact .contact-content .right form .button button:hover {
-  background: none;
+  font-size: 2.1875rem;
   color: #ff652f;
 }
 
@@ -663,8 +593,8 @@ footer .social-icons a:hover {
   }
   .navbar .nav-menu li a {
     display: inline-block;
-    margin: 20px 0;
-    font-size: 1.5625rem;
+    margin: 40px 0;
+    font-size: 2rem;
   }
   .navbar.sticky .nav-menu li a:hover {
     color: #ff652f;
@@ -711,9 +641,8 @@ footer .social-icons a:hover {
     width: calc(50% - 10px);
     margin-bottom: 20px;
   }
-  .skills .skills-content .column,
-  .contact .contact-content .icons .row {
-    width: calc(50% - 10px);
+  .skills .skills-content .column {
+    width: 50%;
     margin-bottom: 30px;
   }
   .home .social-icons {
@@ -725,17 +654,29 @@ footer .social-icons a:hover {
     padding: 0 30px;
     font-size: 45px;
   }
-  .contact .contact-content .icons {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+  .contact .contact-content .column .icons {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (50%)[2];
+        grid-template-columns: repeat(2, 50%);
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-left: 25px;
+  }
+  .contact .contact-content .column .icons .row {
+    margin-bottom: 30px;
   }
 }
 
 @media (max-width: 690px) {
   .max-width {
     padding: 0 50px;
+  }
+  .navbar .nav-menu li a {
+    display: inline-block;
+    margin: 20px 0;
+    font-size: 1.785rem;
   }
   .home .home-content {
     text-align: center;
@@ -757,18 +698,18 @@ footer .social-icons a:hover {
   .services .services-content .card {
     width: 100%;
   }
-  .skills .skills-content .column,
-  .contact .contact-content .icons .row {
+  .skills .skills-content .column {
     width: 100%;
-    margin-bottom: 35px;
     padding-bottom: 0;
   }
-  .contact .contact-content .left .icons {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    margin-bottom: 0;
+  .contact .contact-content .column .icons {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 100%;
+        grid-template-columns: 100%;
+  }
+  .contact .contact-content .column .icons .row {
+    margin-bottom: 30px;
   }
   footer .social-icons .social-icon {
     font-size: 20px;

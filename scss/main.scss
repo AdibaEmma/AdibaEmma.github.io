@@ -73,7 +73,7 @@ section .title::after {
 
 
 .about .about-content,
-.services .services-content, 
+.services .services-content,
 .skills .skills-content,
 .contact .contact-content {
     display: flex;
@@ -93,7 +93,7 @@ section .title::after {
 
 .white-section p {
     color: rgb(116, 107, 107);
-} 
+}
 
 @import 'about';
 @import 'services';
@@ -161,10 +161,9 @@ section .title::after {
 
     .navbar .nav-menu li a {
         display: inline-block;
-        margin: 20px 0;
-        font-size: 1.5625rem;
+        margin: 40px 0;
+        font-size: 2rem;
     }
-
 
     .navbar.sticky .nav-menu li a:hover {
         color: $primary-color;
@@ -192,6 +191,7 @@ section .title::after {
         width: 60%;
         text-align: center;
     }
+
     .max-width {
         max-width: 50rem;
     }
@@ -216,9 +216,8 @@ section .title::after {
         margin-bottom: 20px;
     }
 
-    .skills .skills-content .column,
-    .contact .contact-content .icons .row {
-        width: calc(50% - 10px);
+    .skills .skills-content .column {
+        width: 50%;
         margin-bottom: 30px;
     }
 
@@ -234,15 +233,28 @@ section .title::after {
     }
 
 
-    .contact .contact-content .icons {
-        flex-direction: column;
-    }    
+    .contact .contact-content .column .icons {
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        justify-content: center;
+        margin-left: 25px;
+    }
+
+    .contact .contact-content .column .icons .row {
+        margin-bottom: 30px;
+    }
 
 }
 
 @media (max-width: 690px) {
     .max-width {
         padding: 0 50px;
+    }
+
+    .navbar .nav-menu li a {
+        display: inline-block;
+        margin: 20px 0;
+        font-size: 1.785rem;
     }
 
     .home .home-content {
@@ -271,22 +283,24 @@ section .title::after {
         width: 100%;
     }
 
-    .skills .skills-content .column,
-    .contact .contact-content .icons .row {
+    .skills .skills-content .column {
         width: 100%;
-        margin-bottom: 35px;
         padding-bottom: 0;
     }
 
-    .contact .contact-content .left .icons {
-        flex-direction: column;
-        margin-bottom: 0;
-    }    
+    .contact .contact-content .column .icons {
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    .contact .contact-content .column .icons .row {
+        margin-bottom: 30px;
+    }
 
     footer .social-icons .social-icon {
         font-size: 20px;
     }
-    
+
 }
 
 @media (max-width: 500px) {
@@ -325,7 +339,7 @@ section .title::after {
     }
 
     .skills .skills-content .skill {
-       padding: 10px auto;
+        padding: 10px auto;
     }
 
     .contact .right form .button {

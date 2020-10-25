@@ -25,14 +25,6 @@ $(document).ready(function () {
         $('.navbar .nav-menu').toggleClass("active");
         $('.menu-btn i').toggleClass("active");
     });
-
-
-    //  File Download
-    $('#downloadCV').click(function(e) {
-        e.preventDefault();
-        wind.location.href = "cv.txt";
-    });    
-
 });
 
 
@@ -50,6 +42,20 @@ var typed = new Typed(".typing-2", {
     backSpeed: 60,
     loop: true
 });
+
+    //  File Download
+    // let fileDownload = document.querySelector('#downloadCV');     
+     
+    // // Must use FileSaver.js 2.0.2 because 2.0.3 has issues.
+    // fileDownload.addEventListener('click', () => {
+    //     let filePath = a.getAttribute('href');
+    //     let fileName = getFileName(filePath);
+    //     saveAs("c/documents", fileName);
+    // });
+     
+    // function getFileName(str) {
+    //     return str.substring(str.lastIndexOf('/') + 1)
+    // }
 
 // Scroll Reveal Animation
 const sr = ScrollReveal({
@@ -99,12 +105,12 @@ sr.reveal('.skills-content .column', {
 
 // Scroll Contact
 sr.reveal('.contact .title', {})
-sr.reveal('.contact .column', {
+// sr.reveal('.contact .column', {
+//     delay: 200
+// })
+sr.reveal('.contact .contact-content .row', {
     interval: 200
 })
-sr.reveal('.contact .left .icons', {
-    delay: 400
-})
-sr.reveal('.contact .right .button', {
-    delay: 400
-})
+// sr.reveal('.contact .right .button', {
+//     delay: 400
+// })

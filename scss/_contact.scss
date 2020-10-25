@@ -20,16 +20,15 @@
             }
 
             .icons {
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(4, 25%);
                 margin: 10px 0;
                 padding-top: 30px;
                 justify-content: center;
             }
 
             .row {
-                width: 220px;
                 height: 8rem;
-                justify-content: space-between;
                 border: 2px solid;
                 border-color: #333 #ff652f #ff652f #ff652f;
                 border-radius: 6px;
@@ -39,6 +38,7 @@
                 background: #222;
 
                 .info {
+                    font-size: 1rem;
                     padding: 0 15px;
                     margin-top: 0;
                     align-self: center;
@@ -48,87 +48,87 @@
                     }
 
                     .sub-title {
-                        color: rgb(199, 199, 199);
+                        color: #999;
                     }
                 }
 
                 i {
                     position: relative;
                     bottom: 15px;
-                    font-size: 35px;
+                    font-size: 2.1875rem;
                     color: #ff652f;
                 }
             }
         }
 
 
-        .right {
-            form {
-                .fields {
-                    display: flex;
-                }
+        // .right {
+        //     form {
+        //         .fields {
+        //             display: flex;
+        //         }
 
-                .field,
-                .fields .field {
-                    height: 2.8125rem;
-                    width: 100%;
-                    margin-bottom: 15px;
-                }
+        //         .field,
+        //         .fields .field {
+        //             height: 2.8125rem;
+        //             width: 100%;
+        //             margin-bottom: 15px;
+        //         }
 
-                .message {
-                    height: 90px;
-                }
+        //         .message {
+        //             height: 90px;
+        //         }
 
-                .name {
-                    margin-right: 10px;
-                }
+        //         .name {
+        //             margin-right: 10px;
+        //         }
 
-                .email {
-                    margin-left: 10px;
-                }
+        //         .email {
+        //             margin-left: 10px;
+        //         }
 
-                .field input,
-                .message textarea {
-                    height: 100%;
-                    width: 100%;
-                    border: 1px solid #333;
-                    border-radius: 6px;
-                    outline: none;
-                    padding: 0 15px;
-                    font-size: 17px;
-                    font-family: 'Poppins', sans-serif;
-                    background-color: #222;
-                    color: #fff;
-                }
+        //         .field input,
+        //         .message textarea {
+        //             height: 100%;
+        //             width: 100%;
+        //             border: 1px solid #333;
+        //             border-radius: 6px;
+        //             outline: none;
+        //             padding: 0 15px;
+        //             font-size: 17px;
+        //             font-family: 'Poppins', sans-serif;
+        //             background-color: #222;
+        //             color: #fff;
+        //         }
 
-                .message textarea {
-                    padding-top: 10px;
-                    resize: none;
-                }
+        //         .message textarea {
+        //             padding-top: 10px;
+        //             resize: none;
+        //         }
 
-                .button {
-                    height: 45px;
-                    width: 170px;
-                }
+        //         .button {
+        //             height: 45px;
+        //             width: 170px;
+        //         }
 
-                .button button {
-                    height: 100%;
-                    width: 100%;
-                    border: 2px solid #ff652f;
-                    border-radius: 6px;
-                    background-color: #ff652f;
-                    color: #fff;
-                    font-size: 20px;
-                    font-weight: 500;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                }
+        //         .button button {
+        //             height: 100%;
+        //             width: 100%;
+        //             border: 2px solid #ff652f;
+        //             border-radius: 6px;
+        //             background-color: #ff652f;
+        //             color: #fff;
+        //             font-size: 20px;
+        //             font-weight: 500;
+        //             cursor: pointer;
+        //             transition: all 0.3s ease;
+        //         }
 
-                .button button:hover {
-                    background: none;
-                    color: #ff652f;
-                }
-            }
-        }
+        //         .button button:hover {
+        //             background: none;
+        //             color: #ff652f;
+        //         }
+        //     }
+        // }
     }
 }

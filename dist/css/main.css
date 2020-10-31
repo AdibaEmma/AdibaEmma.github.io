@@ -81,7 +81,7 @@ html {
 }
 
 .navbar.sticky .nav-menu li a:hover {
-  color: #eb0c56;
+  color: #6c8839;
 }
 
 .navbar.sticky .menu-btn i:hover {
@@ -403,7 +403,7 @@ section .title::after {
 }
 
 .skills .skills-content .column {
-  width: calc(33% - 20px);
+  width: calc(25% - 10px);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -710,6 +710,17 @@ footer .social-icons a:hover {
   .skills .skills-content .column {
     width: 100%;
     padding-bottom: 0;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: start;
+  }
+  .skills .skills-content .column h4 {
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+  }
+  .skills .skills-content .column .skill {
+    padding-left: 45px;
   }
   .contact .contact-content .column .icons {
     display: -ms-grid;

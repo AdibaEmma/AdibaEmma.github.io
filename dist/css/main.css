@@ -172,7 +172,7 @@ section .title::after {
   display: -ms-flexbox;
   display: flex;
   background: url("../images/type-1.png") no-repeat center;
-  height: 98vh;
+  height: 100vh;
   font-family: 'Ubuntu', sans-serif;
   color: #fff;
 }

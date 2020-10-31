@@ -11,12 +11,16 @@
 
         .column {
             width: calc(33% - 20px);
+            display: flex;
+            flex-direction: column;
+            align-self: start;
         }
 
         .skill {
             margin-top: 25px;
             display: flex;
             justify-items: space-between;
+
 
             p {
                 font-size: 18px;

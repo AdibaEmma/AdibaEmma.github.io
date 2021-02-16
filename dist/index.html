@@ -309,9 +309,17 @@
             <a href="https://www.github.com/AdibaEmma" target="_blank" class="social-icon github"><i
                     class="fab fa-github"></i></a>
         </div>
-        <span>< /> with ❤️ By <a href="https://www.github.com/AdibaEmma">AdibaEmma</a> | <span class="far fa-copyright"> 2020 All rights
-                reserved.</span></span>
+
+        <span><span /> with ❤️ By <a href="https://www.github.com/AdibaEmma">AdibaEmma</a> | &copy; <span class="date"></span> All rights
+                reserved.</span>
     </footer>
+
+    <script>
+        const date = new Date;
+        const year = date.getFullYear();
+       
+        document.querySelector(".date").innerHTML = year;
+    </script>
 
     <!-- JQuery -->
     <script src="./js/jquery.min.js"></script>

@@ -39,7 +39,9 @@
 
                 &:hover {
                     border-color: #ff652f #333 #333 #333;
-                    transition: color 5s ease-in;
+                    animation-name: color-change;
+                    animation-duration: 2s;
+                    animation-timing-function: cubic-bezier(0.15, 0.15, 0.10, 0.40);
 
                     i {
                         color: #999;
@@ -154,4 +156,11 @@
     57%  { transform: scale(1,1)      translateY(-7px); }
     64%  { transform: scale(1,1)      translateY(0); }
     100% { transform: scale(1,1)      translateY(0); }
+}
+
+@keyframes color-change {
+    0% {border-color: #333 #ff652f #ff652f #ff652f;}
+    25% {border-color: #333 #ff652f #ff652f #333;}
+    50% {border-color: #333 #ff652f #333 #333;}
+    100% {border-color: #ff652f #333 #333 #333;}
 }

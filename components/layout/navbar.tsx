@@ -38,9 +38,14 @@ export function Navbar() {
     >
       <div className="container-width">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold">
-              Portfo<span className="gradient-text">lio.</span>
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+              <span className="text-white font-bold text-sm">EA</span>
+            </div>
+            <span className="text-xl font-bold font-mono">
+              <span className="text-primary">&lt;</span>
+              Emmanuel
+              <span className="text-primary">/&gt;</span>
             </span>
           </Link>
 

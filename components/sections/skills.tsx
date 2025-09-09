@@ -34,48 +34,30 @@ export function SkillsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="bg-card rounded-xl p-6 border border-border"
+              className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:bg-card/80 transition-all duration-300"
             >
               <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <span
-                  className={`w-2 h-2 rounded-full bg-gradient-to-r ${category.color}`}
+                  className={`w-3 h-3 rounded-full bg-gradient-to-r ${category.color} animate-pulse`}
                 />
                 {category.title}
               </h3>
-              <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
                 {category.data.map((skill, index) => (
                   <motion.div
                     key={skill.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{
                       duration: 0.3,
                       delay: categoryIndex * 0.1 + index * 0.05,
                     }}
+                    whileHover={{ scale: 1.05 }}
+                    className="flex flex-col items-center gap-2 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-all duration-200"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <i className={`${skill.icon} text-2xl`} />
-                        <span className="text-sm font-medium">{skill.name}</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        {skill.level}%
-                      </span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{
-                          duration: 1,
-                          delay: categoryIndex * 0.1 + index * 0.05,
-                          ease: "easeOut",
-                        }}
-                        className={`h-full bg-gradient-to-r ${category.color} rounded-full`}
-                      />
-                    </div>
+                    <i className={`${skill.icon} text-3xl hover:scale-110 transition-transform`} />
+                    <span className="text-xs font-medium text-center leading-tight">{skill.name}</span>
                   </motion.div>
                 ))}
               </div>

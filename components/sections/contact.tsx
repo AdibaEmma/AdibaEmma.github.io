@@ -78,20 +78,6 @@ export function ContactSection() {
   return (
     <section id="contact" className="section-padding">
       <div className="container-width">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-4" />
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Over the course of my career, I&apos;ve developed stunning and functional
-            websites for clients. Let&apos;s discuss how I can help bring your ideas to life.
-          </p>
-        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           <motion.div

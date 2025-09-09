@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ClientWrapper } from "@/components/layout/client-wrapper";
 import { siteConfig } from "@/lib/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -81,7 +82,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ClientWrapper>
+            {children}
+          </ClientWrapper>
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>

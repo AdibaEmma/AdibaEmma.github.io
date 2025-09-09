@@ -162,7 +162,7 @@ export function HeroSection() {
             <div className="text-2xl md:text-3xl lg:text-4xl font-light">
               <span className="text-muted-foreground">const role = </span>
               <span className="gradient-text font-bold font-mono">
-                "{displayText}"
+                &quot;{displayText}&quot;
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
@@ -192,38 +192,139 @@ export function HeroSection() {
             transition={{ delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
+            {/* Enhanced Hire Me Button */}
             <motion.div
+              className="relative"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onHoverStart={() => {}}
+              onHoverEnd={() => {}}
             >
               <Link
                 href="/contact"
-                className="group relative px-8 py-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-lg font-medium overflow-hidden transition-all hover:shadow-lg hover:shadow-primary/25"
+                className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary via-primary/90 to-primary/80 text-primary-foreground rounded-lg font-medium overflow-hidden transition-all hover:shadow-xl hover:shadow-primary/30 border-2 border-transparent hover:border-primary/20"
               >
-                <span className="relative z-10">Hire Me</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="relative z-20 flex items-center gap-2 font-semibold">
+                  Hire Me
+                  <motion.svg 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2"
+                    className="group-hover:translate-x-1 transition-transform duration-300"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </motion.svg>
+                </span>
+                
+                {/* Animated background layers */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/60 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg" />
+                
+                {/* Shimmer effect */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 rounded-lg"
                   initial={{ x: '-100%' }}
                   whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
                 />
+                
+                {/* Pulse effect on hover */}
+                <motion.div
+                  className="absolute inset-0 bg-primary/20 rounded-lg"
+                  initial={{ scale: 1, opacity: 0 }}
+                  whileHover={{ 
+                    scale: [1, 1.05, 1],
+                    opacity: [0, 0.3, 0]
+                  }}
+                  transition={{ 
+                    duration: 0.6,
+                    repeat: Infinity,
+                    repeatType: "loop"
+                  }}
+                />
+                
+                {/* Floating particles effect */}
+                <div className="absolute inset-0 overflow-hidden rounded-lg">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-white/60 rounded-full"
+                      initial={{ 
+                        x: Math.random() * 100 + '%',
+                        y: '100%',
+                        opacity: 0
+                      }}
+                      whileHover={{
+                        y: '-100%',
+                        opacity: [0, 1, 0],
+                      }}
+                      transition={{
+                        duration: 2,
+                        delay: i * 0.2,
+                        repeat: Infinity,
+                        repeatType: "loop"
+                      }}
+                    />
+                  ))}
+                </div>
               </Link>
+              
+              {/* Floating glow effect */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg blur-xl -z-10"
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0.8, 0.5]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
             </motion.div>
+
+            {/* Enhanced View Projects Button */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Link
                 href="/projects"
-                className="group px-8 py-3 border border-border rounded-lg font-medium hover:border-primary/50 transition-all relative overflow-hidden"
+                className="group relative inline-flex items-center justify-center px-8 py-4 border-2 border-border/50 rounded-lg font-medium hover:border-primary/50 transition-all bg-background/30 hover:bg-background/60 backdrop-blur-sm overflow-hidden"
               >
-                <span className="relative z-10">View Projects</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="relative z-10 flex items-center gap-2 font-semibold">
+                  View Projects
+                  <motion.svg 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2"
+                    className="group-hover:rotate-45 transition-transform duration-300"
+                  >
+                    <rect width="18" height="18" x="3" y="3" rx="2"/>
+                    <path d="M9 9h6v6"/>
+                  </motion.svg>
+                </span>
+                
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
+                
                 <motion.div
-                  className="absolute inset-0 border border-primary/30 rounded-lg opacity-0"
+                  className="absolute inset-0 border-2 border-primary/30 rounded-lg opacity-0"
                   whileHover={{ opacity: 1, scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.3 }}
+                />
+                
+                {/* Subtle shine effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '100%' }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
                 />
               </Link>
             </motion.div>

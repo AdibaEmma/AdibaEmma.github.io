@@ -19,7 +19,7 @@ export function AboutSection() {
   }].reverse()
 
   const stats = [
-    { icon: Briefcase, label: "Years Experience", value: "3+", color: "text-blue-500" },
+    { icon: Briefcase, label: "Years Experience", value: "4+", color: "text-blue-500" },
     { icon: Code, label: "Projects Delivered", value: "15+", color: "text-green-500" },
     { icon: TrendingUp, label: "Performance Boost", value: "40%", color: "text-purple-500" },
     { icon: Users, label: "Users Impacted", value: "15K+", color: "text-orange-500" },
@@ -80,125 +80,268 @@ export function AboutSection() {
           })}
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-start">
           {/* Left Column - Personal Info */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-8"
           >
+            {/* Clean Modern Image Section */}
             <motion.div 
               className="relative"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <motion.div 
-                className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-2xl blur-lg opacity-50"
-                whileHover={{ opacity: 0.8 }}
-                transition={{ duration: 0.3 }}
-              />
+              {/* Subtle Background Glow */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-3xl blur-xl opacity-50" />
+              
+              {/* Main Image Container */}
               <div className="relative w-full aspect-[4/5] max-w-sm mx-auto group">
-                <Image
-                  src="/images/profile.jpg"
-                  alt="Emmanuel Adiba"
-                  fill
-                  className="object-cover object-top rounded-2xl shadow-2xl group-hover:shadow-primary/20 transition-shadow duration-300"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent rounded-2xl group-hover:from-primary/20 transition-colors duration-300" />
+                <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-primary/5 to-purple-500/5 border border-border/50 shadow-xl">
+                  <Image
+                    src="/images/profile.jpg"
+                    alt="Emmanuel Adiba"
+                    fill
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
+                  
+                  {/* Subtle overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                </div>
               </div>
+              
+              {/* Clean Status Badge */}
+              <motion.div
+                className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-background/95 backdrop-blur-sm border border-border/50 rounded-full px-4 py-2 shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-xs font-medium text-muted-foreground">Available for opportunities</span>
+                </div>
+              </motion.div>
             </motion.div>
 
-            <div className="text-center lg:text-left space-y-6">
-              <div>
-                <h3 className="text-2xl font-bold mb-4">
-                  {aboutContent.intro}{" "}
-                  <span className="gradient-text">building the future</span>
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {aboutContent.description}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 text-muted-foreground justify-center lg:justify-start">
-                <MapPin className="h-5 w-5 text-primary" />
-                <span>{siteConfig.location}</span>
-              </div>
-
-              <div className="flex gap-4 justify-center lg:justify-start">
-                <Link
-                  href={aboutContent.resumePath}
-                  download
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all hover:scale-105"
+            {/* Enhanced Text Section */}
+            <div className="text-center lg:text-left space-y-8">
+              {/* Hero Text with Enhanced Typography */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="space-y-6"
+              >
+                {/* Greeting Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-medium"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <Download className="h-5 w-5 group-hover:animate-bounce" />
-                  Download CV
-                </Link>
-                <Link
-                  href="/projects"
-                  className="group inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary/10 transition-all hover:scale-105"
+                  <span className="animate-pulse">👋</span>
+                  Hello there!
+                </motion.div>
+
+                {/* Main Headline */}
+                <div className="space-y-3">
+                  <h3 className="text-3xl lg:text-4xl font-bold leading-tight">
+                    {aboutContent.intro.replace('I\'m Emmanuel, a passionate fullstack engineer', 'I\'m Emmanuel, a passionate')}{" "}
+                    <motion.span 
+                      className="relative"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent font-extrabold">
+                        fullstack engineer
+                      </span>
+                      {/* Animated underline */}
+                      <motion.div
+                        className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-primary to-purple-500 rounded-full"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ delay: 1, duration: 0.8 }}
+                      />
+                    </motion.span>
+                  </h3>
+                  
+                  <motion.h4 
+                    className="text-xl lg:text-2xl font-semibold text-muted-foreground"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <span className="gradient-text">building the future</span> with code & psychology
+                  </motion.h4>
+                </div>
+
+                {/* Enhanced Description */}
+                <motion.div
+                  className="space-y-4 max-w-2xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
                 >
-                  View Projects
-                </Link>
-              </div>
+                  <p className="text-muted-foreground leading-relaxed text-lg">
+                    {aboutContent.description.split('.')[0]}.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {aboutContent.description.split('.').slice(1).join('.')}
+                  </p>
+                </motion.div>
+              </motion.div>
+
+              {/* Enhanced Location & Status */}
+              <motion.div
+                className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+              >
+                <div className="flex items-center gap-2 px-4 py-2 bg-background/50 backdrop-blur-sm border border-border/50 rounded-full">
+                  <MapPin className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium">{siteConfig.location}</span>
+                </div>
+                
+                <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium text-green-600">Open to opportunities</span>
+                </div>
+              </motion.div>
+
+              {/* Enhanced CTA Buttons */}
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2 }}
+              >
+                {/* Primary CTA */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href={aboutContent.resumePath}
+                    download
+                    className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary via-primary/90 to-primary/80 text-primary-foreground rounded-xl font-semibold overflow-hidden transition-all hover:shadow-xl hover:shadow-primary/30"
+                  >
+                    <Download className="h-5 w-5 group-hover:animate-bounce transition-transform duration-300" />
+                    Download Resume
+                    
+                    {/* Button shine effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                      initial={{ x: '-100%' }}
+                      whileHover={{ x: '100%' }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                    />
+                  </Link>
+                </motion.div>
+
+                {/* Secondary CTA */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="/projects"
+                    className="group relative inline-flex items-center gap-2 px-8 py-4 border-2 border-border/50 hover:border-primary/50 rounded-xl font-semibold bg-background/30 hover:bg-background/60 backdrop-blur-sm transition-all overflow-hidden"
+                  >
+                    <Code className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                    View Projects
+                    
+                    {/* Animated border */}
+                    <motion.div
+                      className="absolute inset-0 border-2 border-primary/30 rounded-xl opacity-0"
+                      whileHover={{ opacity: 1, scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Link>
+                </motion.div>
+              </motion.div>
 
               {/* Skills Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
                 className="mt-12"
               >
-                <h3 className="text-2xl font-bold mb-6 text-center lg:text-left">My Skills</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center lg:text-left">Technical Skills</h3>
                 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Compact Grid Layout */}
+                <div className="grid md:grid-cols-2 gap-4">
                   {[
-                    { title: "Frontend", data: skills.frontend, color: "from-blue-500 to-cyan-500" },
-                    { title: "Backend", data: skills.backend, color: "from-green-500 to-emerald-500" },
-                    { title: "Database", data: skills.database, color: "from-orange-500 to-red-500" },
-                    { title: "Tools & DevOps", data: skills.tools, color: "from-purple-500 to-pink-500" },
-                    { title: "ML/AI", data: skills.mlai, color: "from-yellow-500 to-orange-500" },
+                    { title: "Frontend", data: skills.frontend, color: "from-blue-500 to-cyan-500", icon: "💻" },
+                    { title: "Backend", data: skills.backend, color: "from-green-500 to-emerald-500", icon: "⚡" },
+                    { title: "Database", data: skills.database, color: "from-orange-500 to-red-500", icon: "🗄️" },
+                    { title: "Tools & DevOps", data: skills.tools, color: "from-purple-500 to-pink-500", icon: "🛠️" },
+                    { title: "ML/AI", data: skills.mlai, color: "from-yellow-500 to-orange-500", icon: "🧠" },
                   ].map((category, categoryIndex) => (
                     <motion.div
                       key={category.title}
                       initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.4 + categoryIndex * 0.1 }}
-                      className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:bg-card/80 transition-all duration-300"
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.8 + categoryIndex * 0.1 }}
+                      className="bg-background/60 backdrop-blur-sm rounded-xl p-5 border border-border/50 hover:bg-background/80 hover:border-primary/30 transition-all duration-300 hover:shadow-lg h-fit"
                     >
-                      <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <span
-                          className={`w-3 h-3 rounded-full bg-gradient-to-r ${category.color} animate-pulse`}
-                        />
-                        {category.title}
-                      </h4>
-                      <div className="grid grid-cols-2 gap-4">
+                      {/* Compact Category Header */}
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center text-white text-sm shadow-lg`}>
+                          {category.icon}
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-foreground">{category.title}</h4>
+                          <p className="text-xs text-muted-foreground">{category.data.length} techs</p>
+                        </div>
+                      </div>
+
+                      {/* Compact Skills Grid */}
+                      <div className="grid grid-cols-4 gap-3">
                         {category.data.map((skill, index) => (
                           <motion.div
                             key={skill.name}
                             initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
+                            animate={{ opacity: 1, scale: 1 }}
                             transition={{
                               duration: 0.3,
-                              delay: 0.4 + categoryIndex * 0.1 + index * 0.05,
+                              delay: 1.0 + categoryIndex * 0.1 + index * 0.03,
                             }}
-                            whileHover={{ scale: 1.05 }}
-                            className="flex flex-col items-center gap-2 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-all duration-200"
+                            whileHover={{ scale: 1.05, y: -1 }}
+                            className="group relative flex flex-col items-center gap-1 p-3 rounded-lg bg-background/50 hover:bg-background/90 border border-border/30 hover:border-primary/40 transition-all duration-300 cursor-pointer"
                           >
-                            <i className={`${skill.icon} text-3xl hover:scale-110 transition-transform`} />
-                            <span className="text-xs font-medium text-center leading-tight">{skill.name}</span>
+                            {/* Skill Icon */}
+                            <i className={`${skill.icon} text-lg group-hover:scale-110 transition-transform duration-300`} />
+
+                            {/* Skill Name */}
+                            <span className="text-xs font-medium text-center leading-tight text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                              {skill.name}
+                            </span>
+
+                            {/* Hover border effect */}
+                            <div className="absolute inset-0 rounded-lg border border-primary/0 group-hover:border-primary/30 transition-all duration-300" />
                           </motion.div>
                         ))}
                       </div>
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Compact Skills Summary */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.2 }}
+                  className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20 text-center"
+                >
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-semibold text-primary">{Object.values(skills).flat().length}+ technologies</span> across frontend, backend, databases, and ML/AI
+                  </p>
+                </motion.div>
               </motion.div>
             </div>
           </motion.div>
@@ -206,9 +349,8 @@ export function AboutSection() {
           {/* Right Column - Timeline */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="space-y-8"
           >
             <div className="text-center lg:text-left mb-8">
@@ -229,9 +371,8 @@ export function AboutSection() {
                     <motion.div
                       key={experience.id}
                       initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                       className="relative flex gap-6 group"
                     >
                       {/* Timeline dot */}

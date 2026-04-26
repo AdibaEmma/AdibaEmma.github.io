@@ -1,73 +1,131 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Github, Linkedin, Twitter, Facebook, Heart } from "lucide-react"
-import { siteConfig } from "@/lib/constants"
+import Link from "next/link";
+import { siteConfig } from "@/lib/constants";
+import { Marquee } from "@/components/ui/marquee";
+import { Reveal } from "@/components/ui/reveal";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const year = new Date().getFullYear();
 
-  const socialLinks = [
-    { icon: Github, href: siteConfig.social.github, label: "GitHub" },
-    { icon: Linkedin, href: siteConfig.social.linkedin, label: "LinkedIn" },
-    { icon: Twitter, href: siteConfig.social.twitter, label: "Twitter" },
-    { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
-  ]
+  const social = [
+    { label: "GitHub", href: siteConfig.social.github },
+    { label: "LinkedIn", href: siteConfig.social.linkedin },
+    { label: "Twitter / X", href: siteConfig.social.twitter },
+    { label: "Email", href: `mailto:${siteConfig.email}` },
+  ];
 
   return (
-    <footer className="bg-muted/50 border-t border-border">
-      <div className="container-width py-12">
-        <div className="flex flex-col items-center space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex gap-4"
-          >
-            {socialLinks.map((link) => {
-              const Icon = link.icon
-              return (
+    <footer className="relative pt-24 pb-8 overflow-hidden border-t border-hairline">
+      <div className="hero-glow" aria-hidden />
+
+      {/* Massive editorial mark */}
+      <div className="container-edit relative">
+        <Reveal>
+          <h2 className="display-mega font-display italic text-[var(--foreground)]/90 leading-none">
+            Let&rsquo;s build
+            <br />
+            <span className="not-italic accent-text">something quietly</span>
+            <br />
+            extraordinary.
+          </h2>
+        </Reveal>
+      </div>
+
+      {/* Marquee */}
+      <div className="my-16 border-y border-hairline py-6">
+        <Marquee
+          items={[
+            <span key="a" className="font-display italic text-3xl md:text-5xl">
+              available · q2 2026
+            </span>,
+            <span key="b" className="font-display text-3xl md:text-5xl">
+              {siteConfig.email}
+            </span>,
+            <span key="c" className="font-display italic text-3xl md:text-5xl accent-text">
+              ✶ open to collaborate
+            </span>,
+            <span key="d" className="font-display text-3xl md:text-5xl">
+              made in bolgatanga · ghana
+            </span>,
+          ]}
+        />
+      </div>
+
+      <div className="container-edit grid gap-12 md:grid-cols-4">
+        <div>
+          <p className="eyebrow mb-3">(Index)</p>
+          <p className="font-display text-xl">
+            Emmanuel Adiba
+            <br />
+            <span className="text-[var(--ink-secondary)] text-base">
+              Software Engineer
+            </span>
+          </p>
+        </div>
+
+        <div>
+          <p className="eyebrow mb-3">(Contact)</p>
+          <a href={`mailto:${siteConfig.email}`} className="link-edit text-base">
+            {siteConfig.email}
+          </a>
+          <p className="text-[var(--ink-muted)] text-sm mt-2">
+            {siteConfig.location}
+          </p>
+        </div>
+
+        <div>
+          <p className="eyebrow mb-3">(Sitemap)</p>
+          <ul className="space-y-1 label-mono uppercase">
+            <li><Link href="/" className="link-edit">Index</Link></li>
+            <li><Link href="/about" className="link-edit">About</Link></li>
+            <li><Link href="/projects" className="link-edit">Work</Link></li>
+            <li><Link href="/ml-ai" className="link-edit">ML / AI</Link></li>
+            <li><Link href="/now" className="link-edit">Now</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="eyebrow mb-3">(Elsewhere)</p>
+          <ul className="space-y-1 label-mono uppercase">
+            {social.map((s) => (
+              <li key={s.label}>
                 <a
-                  key={link.label}
-                  href={link.href}
+                  href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-background border border-border hover:bg-accent hover:scale-110 transition-all"
-                  aria-label={link.label}
+                  className="link-edit"
                 >
-                  <Icon className="h-5 w-5" />
+                  ↗ {s.label}
                 </a>
-              )
-            })}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center space-y-2"
-          >
-            <p className="text-muted-foreground flex items-center justify-center gap-2">
-              <span>&lt;/&gt;</span> with{" "}
-              <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{" "}
-              <Link
-                href={siteConfig.social.github}
+              </li>
+            ))}
+            <li>
+              <a
+                href="https://github.com/AdibaEmma/AdibaEmma.github.io"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium hover:text-primary transition-colors"
+                className="link-edit"
               >
-                {siteConfig.name}
-              </Link>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              © {currentYear} All rights reserved.
-            </p>
-          </motion.div>
+                ↗ View source
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
+
+      <div className="container-edit mt-16 pt-6 border-t border-hairline flex flex-col md:flex-row gap-3 justify-between label-mono text-[var(--ink-muted)]">
+        <span>
+          © {year} — Emmanuel Adiba.{" "}
+          <span className="text-[var(--ink-secondary)]">
+            Made in <span className="text-[var(--foreground)]">Bolgatanga</span>.
+          </span>
+        </span>
+        <span>
+          Built with Next.js · Three.js ·{" "}
+          <span className="accent-text">v2.0</span>
+        </span>
+      </div>
     </footer>
-  )
+  );
 }

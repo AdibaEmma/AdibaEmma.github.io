@@ -1,292 +1,243 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import { ExternalLink, Github, TrendingUp, Star } from "lucide-react"
-import { projects } from "@/lib/constants"
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { projects } from "@/lib/constants";
+import {
+  PILLARS,
+  PILLAR_LABEL,
+  PILLAR_TAGLINE,
+  Pillar,
+  pillarUppercase,
+} from "@/lib/brand";
+import { Reveal } from "@/components/ui/reveal";
+import { ProjectCover } from "@/components/ui/project-cover";
+import { cn } from "@/lib/utils";
+
+type Filter = "all" | Pillar;
+const FILTERS: Filter[] = ["all", ...PILLARS];
 
 export function ProjectsSection() {
-  const [filter, setFilter] = useState("all")
-  const categories = ["all", "fullstack", "backend", "blockchain", "desktop", "ml-ai"]
+  const [filter, setFilter] = useState<Filter>("all");
 
-  const filteredProjects = projects.filter(
-    (project) => filter === "all" || project.category === filter
-  )
+  const filtered = useMemo(
+    () =>
+      filter === "all"
+        ? projects
+        : projects.filter((p) => p.pillars.includes(filter)),
+    [filter],
+  );
+
+  // Counts per filter for the chip badges
+  const counts = useMemo(() => {
+    const c: Record<Filter, number> = {
+      all: projects.length,
+      engineer: 0,
+      builder: 0,
+      thinker: 0,
+      founder: 0,
+    };
+    projects.forEach((p) => p.pillars.forEach((pl) => (c[pl] += 1)));
+    return c;
+  }, []);
 
   return (
-    <section id="projects" className="section-padding">
-      <div className="container-width">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="section-header"
-        >
-          <h2 className="section-title gradient-text">My Projects</h2>
-          <p className="section-subtitle">
-            A showcase of my technical expertise and innovative solutions
+    <section className="relative pt-24 pb-32">
+      <div className="container-edit">
+        <div className="flex items-baseline justify-between mb-12">
+          <p className="section-tag">(Index ／ 03)</p>
+          <p className="eyebrow hidden md:block">
+            — {projects.length} entries · across four pillars
           </p>
-          
-          <motion.div 
-            className="w-24 h-1 bg-gradient-to-r from-primary via-purple-500 to-pink-500 mx-auto mt-6 mb-8"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          />
-          
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category, index) => (
-              <motion.button
-                key={category}
-                onClick={() => setFilter(category)}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + index * 0.05 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className={`relative px-5 py-2.5 rounded-xl text-sm font-medium font-mono transition-all border overflow-hidden group ${
-                  filter === category
-                    ? "bg-primary/15 text-primary border-primary/40 shadow-lg shadow-primary/20"
-                    : "bg-background/50 backdrop-blur-sm border-border/50 hover:bg-background/80 hover:border-primary/30"
-                }`}
-              >
-                <span className="relative z-10 flex items-center gap-1">
-                  <span className="text-muted-foreground/70">[</span>
-                  {category.charAt(0).toUpperCase() + category.slice(1).replace("-", "/")}
-                  <span className="text-muted-foreground/70">]</span>
-                </span>
-                
-                {/* Active indicator */}
-                {filter === category && (
-                  <motion.div
-                    className="absolute inset-0 bg-primary/10 rounded-xl"
-                    layoutId="activeFilter"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
+        </div>
+
+        <Reveal>
+          <h1 className="display-xl font-display leading-[0.9]">
+            Selected
+            <br />
+            <span className="italic accent-text">work.</span>
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <p className="mt-8 max-w-xl text-[var(--foreground)]/70 text-base md:text-lg">
+            Sorted by pillar, not by date. Engineer is client work at GTN.
+            Builder is exploratory. Thinker is the lab. Founder is venture work
+            with users and revenue intent. Filter to see the shape of each.
+          </p>
+        </Reveal>
+
+        {/* Filter chips — driven entirely by PILLARS */}
+        <Reveal
+          delay={0.25}
+          className="mt-16 flex flex-wrap gap-2 border-b border-hairline pb-6"
+        >
+          {FILTERS.map((c) => {
+            const active = filter === c;
+            const label = c === "all" ? "All" : PILLAR_LABEL[c];
+            return (
+              <button
+                key={c}
+                onClick={() => setFilter(c)}
+                className={cn(
+                  "label-mono uppercase rounded-full px-4 py-2 border transition-all flex items-center gap-2",
+                  active
+                    ? "bg-[var(--accent)] text-[var(--accent-foreground)] border-[var(--accent)]"
+                    : "border-hairline text-[var(--ink-muted)] hover:text-[var(--foreground)]",
                 )}
-                
-                {/* Hover effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                />
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={filter}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, scale: 0.8, y: 40 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: -40 }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: index * 0.05,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                whileHover={{ y: -8 }}
-                className="group relative bg-background/50 backdrop-blur-sm border-2 border-border/50 hover:bg-background/80 hover:border-primary/30 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500"
               >
-                {/* Background gradient glow */}
-                <div className="absolute -inset-px bg-gradient-to-r from-primary/20 via-purple-500/20 to-pink-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                
-                {/* Project Image */}
-                <div className="relative h-52 w-full overflow-hidden bg-muted">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
-                  
-                  {/* Floating particles on hover */}
-                  <div className="absolute inset-0 overflow-hidden">
-                    {[...Array(6)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="absolute w-1 h-1 bg-primary/60 rounded-full"
-                        initial={{ 
-                          x: Math.random() * 100 + '%',
-                          y: '100%',
-                          opacity: 0
-                        }}
-                        whileHover={{
-                          y: '-20%',
-                          opacity: [0, 1, 0],
-                          x: Math.random() * 100 + '%',
-                        }}
-                        transition={{
-                          duration: 2 + Math.random(),
-                          delay: i * 0.2,
-                          repeat: Infinity,
-                          repeatType: "loop"
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Featured Badge */}
-                {project.featured && (
-                  <motion.div 
-                    className="absolute top-4 right-4 z-20"
-                    initial={{ scale: 0, rotate: -45 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: index * 0.05 + 0.2, type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <div className="flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-yellow-900 text-xs font-bold rounded-full shadow-lg">
-                      <Star className="h-3 w-3 fill-current" />
-                      Featured
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Overlay with project links */}
-                <motion.div 
-                  className="absolute inset-0 bg-background/95 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center gap-4 z-30"
-                  initial={false}
+                <span>{label}</span>
+                <span
+                  className={cn(
+                    "tabular-nums text-[0.65rem]",
+                    active
+                      ? "text-[var(--accent-foreground)]/60"
+                      : "text-[var(--ink-muted)]",
+                  )}
                 >
-                  {project.githubUrl && (
-                    <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      whileHover={{ scale: 1.1 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ delay: 0.1, type: "spring", stiffness: 400, damping: 10 }}
-                    >
-                      <Link
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-lg hover:shadow-lg hover:shadow-primary/30 transition-all font-medium"
-                      >
-                        <Github className="h-4 w-4" />
-                        View Code
-                      </Link>
-                    </motion.div>
-                  )}
-                  {'liveUrl' in project && (project as typeof project & { liveUrl: string }).liveUrl && (
-                    <motion.div
-                      initial={{ scale: 0, rotate: 180 }}
-                      whileHover={{ scale: 1.1 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ delay: 0.2, type: "spring", stiffness: 400, damping: 10 }}
-                    >
-                      <Link
-                        href={(project as typeof project & { liveUrl: string }).liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-5 py-3 border-2 border-primary text-primary rounded-lg hover:bg-primary/10 hover:shadow-lg transition-all font-medium"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        Live Demo
-                      </Link>
-                    </motion.div>
-                  )}
-                </motion.div>
+                  {counts[c]}
+                </span>
+              </button>
+            );
+          })}
+          <span className="label-mono ml-auto self-center text-[var(--ink-muted)]">
+            ／ {filtered.length} shown
+            {filter !== "all" && (
+              <span className="ml-2 italic accent-text">
+                — {PILLAR_TAGLINE[filter as Pillar]}
+              </span>
+            )}
+          </span>
+        </Reveal>
 
-                {/* Project Content */}
-                <div className="relative p-6 space-y-4">
-                  <div>
-                    <div className="flex items-start justify-between mb-3">
-                      <motion.h3 
-                        className="text-xl font-bold group-hover:text-primary transition-colors duration-300"
-                        whileHover={{ scale: 1.02 }}
-                      >
-                        {project.title}
-                      </motion.h3>
-                      <motion.div 
-                        className="text-xs text-muted-foreground px-3 py-1 bg-muted/60 rounded-full capitalize font-medium border border-border/50"
-                        whileHover={{ scale: 1.1, backgroundColor: "rgba(var(--primary), 0.1)" }}
-                      >
-                        {project.category}
-                      </motion.div>
-                    </div>
-                    
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                      {project.description}
-                    </p>
-                    
-                    {'impact' in project && (project as typeof project & { impact: string }).impact && (
-                      <motion.div 
-                        className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400 mb-4 p-2 bg-green-500/5 rounded-lg border border-green-500/20"
-                        whileHover={{ scale: 1.02, backgroundColor: "rgba(34, 197, 94, 0.1)" }}
-                      >
-                        <TrendingUp className="h-3 w-3" />
-                        {(project as typeof project & { impact: string }).impact}
-                      </motion.div>
+        {/* Editorial bento — every 3rd card spans full width for visual rhythm */}
+        <div className="mt-16 grid gap-6 md:grid-cols-12">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((p, i) => {
+              const isWide = i % 3 === 0;
+              const span = isWide ? "md:col-span-12" : "md:col-span-6";
+              const primaryPillar = p.pillars[0];
+              return (
+                <motion.article
+                  key={p.id}
+                  layout
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  whileHover={{ y: -4 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: i * 0.06,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className={cn(
+                    "group relative col-span-12 overflow-hidden rounded-md border border-hairline bg-[var(--bg-elevated)] hover:border-[var(--accent)] hover:shadow-2xl hover:shadow-[var(--accent-glow)] transition-[border-color,box-shadow] duration-500",
+                    span,
+                  )}
+                >
+                  <a
+                    href={p.liveUrl || p.githubUrl || "#"}
+                    target={p.liveUrl ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "block",
+                      isWide ? "md:grid md:grid-cols-2 md:items-stretch" : "",
                     )}
-                  </div>
-
-                  {/* Technology Tags */}
-                  <motion.div 
-                    className="flex flex-wrap gap-2"
-                    variants={{
-                      hover: {
-                        transition: {
-                          staggerChildren: 0.05,
-                        },
-                      },
-                    }}
-                    whileHover="hover"
                   >
-                    {project.technologies.slice(0, 4).map((tech) => (
-                      <motion.span
-                        key={tech}
-                        className="px-3 py-1.5 text-xs font-medium bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-all cursor-default border border-primary/20"
-                        variants={{
-                          hover: {
-                            scale: 1.1,
-                            y: -2,
-                          },
-                        }}
-                        whileHover={{ 
-                          backgroundColor: "rgba(var(--primary), 0.2)",
-                          borderColor: "rgba(var(--primary), 0.4)"
-                        }}
-                      >
-                        {tech}
-                      </motion.span>
-                    ))}
-                    {project.technologies.length > 4 && (
-                      <motion.span 
-                        className="px-3 py-1.5 text-xs font-medium bg-muted text-muted-foreground rounded-full cursor-default border border-border/50"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        +{project.technologies.length - 4}
-                      </motion.span>
-                    )}
-                  </motion.div>
-                  
-                  {/* Bottom shine effect */}
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: 1 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+                    {/* Visual area — real screenshot OR typographic draft cover */}
+                    <div
+                      className={cn(
+                        "relative overflow-hidden",
+                        isWide ? "aspect-[16/10] md:aspect-auto md:min-h-[360px]" : "aspect-[16/10]",
+                      )}
+                    >
+                      {p.image ? (
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={p.image}
+                            alt={p.title}
+                            className="h-full w-full object-cover object-top brightness-[0.85] saturate-90 group-hover:brightness-100 group-hover:saturate-100 group-hover:scale-[1.03] transition-all duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/60 via-transparent to-transparent" />
+                        </>
+                      ) : (
+                        <ProjectCover
+                          title={p.title}
+                          tagline={p.tagline}
+                          pillar={primaryPillar}
+                        />
+                      )}
+
+                      {/* Pillar tag — top-left, mono caps, lime */}
+                      <div className="absolute top-3 left-3 label-mono accent-text uppercase tracking-[0.18em] flex items-center gap-2">
+                        <span>●</span>
+                        <span>{pillarUppercase(primaryPillar)}</span>
+                        {p.pillars.length > 1 && (
+                          <span className="text-[var(--ink-muted)] normal-case lowercase">
+                            +{p.pillars.length - 1}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Role — top-right (replaces year) */}
+                      <div className="absolute top-3 right-3 label-mono text-[var(--foreground)] mix-blend-difference">
+                        {p.role}
+                      </div>
+
+                      {/* Reveal-on-hover metric strip */}
+                      <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                        <div className="bg-[var(--accent)] text-[var(--accent-foreground)] px-4 py-2 label-mono flex items-center justify-between">
+                          <span>✶ {p.impact}</span>
+                          {p.liveUrl && <span className="opacity-70">↗ open</span>}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Copy column */}
+                    <div className="flex flex-col p-6 md:p-8 gap-4">
+                      <div className="flex items-baseline justify-between gap-4">
+                        <p className="label-mono text-[var(--ink-muted)]">
+                          {p.year}
+                        </p>
+                        <span className="label-mono accent-text">↗</span>
+                      </div>
+                      <h3 className="font-display text-3xl md:text-4xl lg:text-5xl leading-[0.95]">
+                        {p.title}
+                      </h3>
+                      <p className="font-display italic text-lg md:text-xl text-[var(--foreground)]/80">
+                        {p.tagline}
+                      </p>
+                      <p className="text-sm md:text-base text-[var(--ink-secondary)] max-w-prose">
+                        {p.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1 pt-2">
+                        {p.technologies.map((t) => (
+                          <span
+                            key={t}
+                            className="label-mono px-2 py-0.5 rounded-full border border-hairline text-[var(--ink-muted)]"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="border-t border-hairline pt-3 mt-2 flex items-center justify-between">
+                        <span className="label-mono accent-text">
+                          ✶ {p.impact}
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+
+        <Reveal className="mt-20 text-center label-mono text-[var(--ink-muted)]">
+          ／ More chapters in the works · come back soon ／
+        </Reveal>
       </div>
     </section>
-  )
+  );
 }

@@ -1,376 +1,226 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowDown, Github, Linkedin, Twitter, Facebook, Mail, Code2, Terminal, Cpu } from "lucide-react"
-import { roles, siteConfig } from "@/lib/constants"
-import { MatrixRain } from "@/components/animations/matrix-rain"
-import { FloatingElements } from "@/components/animations/floating-elements"
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Magnetic } from "@/components/ui/magnetic";
+import { roles } from "@/lib/constants";
+import { PILLARS, pillarUppercase } from "@/lib/brand";
+
+// 3D scene only on client (heavy bundle, mouse-driven)
+const HeroScene = dynamic(
+  () => import("@/components/three/hero-scene").then((m) => m.HeroScene),
+  { ssr: false, loading: () => null },
+);
 
 export function HeroSection() {
-  const [currentRole, setCurrentRole] = useState(0)
-  const [displayText, setDisplayText] = useState("")
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [roleIdx, setRoleIdx] = useState(0);
 
   useEffect(() => {
-    const role = roles[currentRole]
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        if (displayText !== role) {
-          setDisplayText(role.slice(0, displayText.length + 1))
-        } else {
-          setTimeout(() => setIsDeleting(true), 1500)
-        }
-      } else {
-        if (displayText === "") {
-          setIsDeleting(false)
-          setCurrentRole((prev) => (prev + 1) % roles.length)
-        } else {
-          setDisplayText(displayText.slice(0, -1))
-        }
-      }
-    }, isDeleting ? 50 : 100)
-
-    return () => clearTimeout(timeout)
-  }, [displayText, isDeleting, currentRole])
-
-  const socialLinks = [
-    { icon: Github, href: siteConfig.social.github, label: "GitHub" },
-    { icon: Linkedin, href: siteConfig.social.linkedin, label: "LinkedIn" },
-    { icon: Twitter, href: siteConfig.social.twitter, label: "Twitter" },
-    { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
-    { icon: Mail, href: `mailto:${siteConfig.email}`, label: "Email" },
-  ]
-
-  const floatingIcons = [
-    { icon: Code2, delay: 0 },
-    { icon: Terminal, delay: 2 },
-    { icon: Cpu, delay: 4 },
-  ]
+    const id = setInterval(() => {
+      setRoleIdx((i) => (i + 1) % roles.length);
+    }, 2400);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Matrix Rain Background */}
-      <MatrixRain />
-      
-      {/* Floating Elements */}
-      <FloatingElements />
-      
-      {/* Animated background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
-        
-        {/* Additional floating tech icons for more visual interest */}
-        {floatingIcons.map((item, index) => {
-          const Icon = item.icon
-          return (
-            <motion.div
-              key={index}
-              className="absolute text-muted-foreground/20"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0],
-                x: Math.random() * 100 - 50,
-                y: Math.random() * 100 - 50,
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                delay: item.delay,
-                ease: "easeInOut"
-              }}
-              style={{
-                left: `${20 + index * 20}%`,
-                top: `${30 + index * 15}%`,
-              }}
-            >
-              <Icon className="h-8 w-8" />
-            </motion.div>
-          )
-        })}
-        
-        {/* Enhanced grid pattern with animation */}
-        <motion.div 
-          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"
-          animate={{
-            backgroundPosition: ['0% 0%', '100% 100%'],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
+    <section className="relative min-h-[100svh] overflow-hidden">
+      {/* Atmospheric glow */}
+      <div className="hero-glow" aria-hidden />
+
+      {/* 3D scene — fills viewport, sits behind type on the right */}
+      <div className="absolute inset-0 md:left-[35%] z-0 opacity-90 md:opacity-100">
+        <HeroScene />
       </div>
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="container-width relative z-10"
+
+      {/* Hairline grid overlay */}
+      <svg
+        aria-hidden
+        className="absolute inset-0 w-full h-full opacity-[0.035] pointer-events-none mix-blend-overlay"
       >
-        <div className="flex flex-col items-center text-center space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="space-y-6"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                y: [0, -5, 0]
-              }}
-              transition={{ 
-                delay: 0.1,
-                y: {
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }
-              }}
-              className="relative"
-            >
-              <div className="text-sm font-mono text-muted-foreground border border-border/50 rounded-full px-4 py-2 bg-background/50 backdrop-blur-sm hover:border-primary/50 hover:bg-background/70 transition-all duration-300">
-                <span className="text-green-500">~/</span> Hello, World! 👋
-              </div>
-            </motion.div>
-            
-            <motion.h1 
-              className="text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground"
-              animate={{
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{
-                backgroundSize: '200% 200%',
-              }}
-            >
-              {siteConfig.name}
-            </motion.h1>
-            
-            <div className="text-2xl md:text-3xl lg:text-4xl font-light">
-              <span className="text-muted-foreground">const role = </span>
-              <span className="gradient-text font-bold font-mono">
-                &quot;{displayText}&quot;
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="text-primary"
-                >
-                  |
-                </motion.span>
-              </span>
-            </div>
-          </motion.div>
+        <defs>
+          <pattern id="hg" width="80" height="80" patternUnits="userSpaceOnUse">
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="currentColor" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hg)" />
+      </svg>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-lg blur-lg opacity-50" />
-            <p className="relative text-muted-foreground max-w-2xl text-lg bg-background/80 backdrop-blur-sm rounded-lg p-6 border border-border/50">
-              {siteConfig.description}
+      <div className="container-edit relative z-10 min-h-[100svh] flex flex-col justify-between pt-32 pb-12">
+        {/* Top eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="flex items-start justify-between gap-6"
+        >
+          <div className="section-tag">
+            <span>(Index ／ 01)</span>
+          </div>
+          <div className="hidden md:block text-right">
+            <p className="label-mono text-[var(--muted-foreground)]">
+              Portfolio · Vol. <span className="accent-text">02</span>
             </p>
-          </motion.div>
+            <p className="label-mono text-[var(--muted-foreground)] mt-1">
+              Edition {new Date().getFullYear()}
+            </p>
+          </div>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            {/* Enhanced Hire Me Button */}
-            <motion.div
-              className="relative"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onHoverStart={() => {}}
-              onHoverEnd={() => {}}
-            >
-              <Link
-                href="/contact"
-                className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary via-primary/90 to-primary/80 text-primary-foreground rounded-lg font-medium overflow-hidden transition-all hover:shadow-xl hover:shadow-primary/30 border-2 border-transparent hover:border-primary/20"
+        {/* Center: massive editorial type */}
+        <div className="relative flex-1 flex items-center">
+          <div className="w-full grid md:grid-cols-12 items-center gap-6">
+            <div className="md:col-span-7">
+              {/* Pillar eyebrow — the four-pillar identity, in fixed order */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.25 }}
+                className="label-mono accent-text mb-5 flex flex-wrap items-center gap-x-2 gap-y-1"
               >
-                <span className="relative z-20 flex items-center gap-2 font-semibold">
-                  Hire Me
-                  <motion.svg 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                    className="group-hover:translate-x-1 transition-transform duration-300"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </motion.svg>
-                </span>
-                
-                {/* Animated background layers */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/60 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg" />
-                
-                {/* Shimmer effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 rounded-lg"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.8, ease: "easeInOut" }}
-                />
-                
-                {/* Pulse effect on hover */}
-                <motion.div
-                  className="absolute inset-0 bg-primary/20 rounded-lg"
-                  initial={{ scale: 1, opacity: 0 }}
-                  whileHover={{ 
-                    scale: [1, 1.05, 1],
-                    opacity: [0, 0.3, 0]
-                  }}
-                  transition={{ 
-                    duration: 0.6,
-                    repeat: Infinity,
-                    repeatType: "loop"
-                  }}
-                />
-                
-                {/* Floating particles effect */}
-                <div className="absolute inset-0 overflow-hidden rounded-lg">
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-1 h-1 bg-white/60 rounded-full"
-                      initial={{ 
-                        x: Math.random() * 100 + '%',
-                        y: '100%',
-                        opacity: 0
-                      }}
-                      whileHover={{
-                        y: '-100%',
-                        opacity: [0, 1, 0],
-                      }}
-                      transition={{
-                        duration: 2,
-                        delay: i * 0.2,
-                        repeat: Infinity,
-                        repeatType: "loop"
-                      }}
-                    />
-                  ))}
-                </div>
-              </Link>
-              
-              {/* Floating glow effect */}
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg blur-xl -z-10"
-                animate={{ 
-                  scale: [1, 1.1, 1],
-                  opacity: [0.5, 0.8, 0.5]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            </motion.div>
+                {PILLARS.map((p, i) => (
+                  <span key={p} className="flex items-center gap-2">
+                    <span>{pillarUppercase(p)}</span>
+                    {i < PILLARS.length - 1 && (
+                      <span className="text-[var(--ink-muted)]">·</span>
+                    )}
+                  </span>
+                ))}
+              </motion.p>
 
-            {/* Enhanced View Projects Button */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                href="/projects"
-                className="group relative inline-flex items-center justify-center px-8 py-4 border-2 border-border/50 rounded-lg font-medium hover:border-primary/50 transition-all bg-background/30 hover:bg-background/60 backdrop-blur-sm overflow-hidden"
+              <motion.h1
+                className="display-mega font-display"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
               >
-                <span className="relative z-10 flex items-center gap-2 font-semibold">
-                  View Projects
-                  <motion.svg 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                    className="group-hover:rotate-45 transition-transform duration-300"
+                <span className="block overflow-hidden">
+                  <motion.span
+                    className="block"
+                    initial={{ y: "110%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <rect width="18" height="18" x="3" y="3" rx="2"/>
-                    <path d="M9 9h6v6"/>
-                  </motion.svg>
+                    Emmanuel
+                  </motion.span>
                 </span>
-                
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
-                
-                <motion.div
-                  className="absolute inset-0 border-2 border-primary/30 rounded-lg opacity-0"
-                  whileHover={{ opacity: 1, scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                />
-                
-                {/* Subtle shine effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                />
-              </Link>
-            </motion.div>
-          </motion.div>
+                <span className="block overflow-hidden">
+                  <motion.span
+                    className="block italic accent-text"
+                    initial={{ y: "110%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1.1, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    Adiba
+                  </motion.span>
+                </span>
+              </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex gap-4"
-          >
-            {socialLinks.map((link, index) => {
-              const Icon = link.icon
-              return (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-full border border-border/50 bg-background/50 backdrop-blur-sm hover:bg-background/80 hover:border-primary/50 hover:scale-110 transition-all duration-300"
-                  aria-label={link.label}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1 }}
-                >
-                  <Icon className="h-5 w-5" />
-                </motion.a>
-              )
-            })}
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="mt-8 max-w-xl"
+              >
+                <p className="font-sans text-base md:text-lg text-[var(--foreground)]/80 leading-relaxed">
+                  Shipping client products at{" "}
+                  <span className="accent-text font-medium">GTN</span>, running
+                  solo ventures from Ghana, and quietly experimenting at the
+                  seam between{" "}
+                  <em className="italic-display">code and cognition</em>. Based
+                  in Bolgatanga.
+                </p>
+              </motion.div>
+            </div>
+
+            <div className="md:col-span-5 hidden md:block">
+              {/* Reserved for sphere — kept empty for visual breathing */}
+            </div>
+          </div>
         </div>
 
+        {/* Meta strip — coords + real availability status (in flow, not absolute) */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1, repeat: Infinity, duration: 2, repeatType: "reverse" }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          transition={{ duration: 1, delay: 1.05 }}
+          className="hidden md:flex justify-end items-center gap-6 label-mono text-[var(--ink-muted)] mb-6 pb-6 border-b border-hairline"
         >
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-muted-foreground font-mono">scroll down</span>
-            <ArrowDown className="h-6 w-6 animate-bounce text-primary" />
+          <span>
+            LAT <span className="text-[var(--foreground)]">10.78°N</span>
+          </span>
+          <span>
+            LNG <span className="text-[var(--foreground)]">0.85°W</span>
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inset-0 rounded-full bg-[var(--accent)] animate-ping opacity-60" />
+              <span className="relative inline-block h-2 w-2 rounded-full bg-[var(--accent)]" />
+            </span>
+            <span className="text-[var(--foreground)]">
+              Available · Q2 2026
+            </span>
+          </span>
+        </motion.div>
+
+        {/* Bottom row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="grid md:grid-cols-12 gap-6 items-end"
+        >
+          {/* Role rotator */}
+          <div className="md:col-span-5">
+            <p className="eyebrow mb-2">(Currently)</p>
+            <div className="font-display text-2xl md:text-3xl h-10 overflow-hidden">
+              <motion.div
+                key={roleIdx}
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -30, opacity: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <span className="italic">{roles[roleIdx]}</span>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className="md:col-span-4 flex flex-wrap items-center gap-3">
+            <Magnetic strength={0.25}>
+              <Link href="/contact" className="btn-magnetic btn-magnetic--primary">
+                <span>Hire me</span>
+                <span aria-hidden>→</span>
+              </Link>
+            </Magnetic>
+            <Magnetic strength={0.2}>
+              <Link href="/projects" className="btn-magnetic btn-magnetic--ghost">
+                <span>Selected work</span>
+                <span aria-hidden>↗</span>
+              </Link>
+            </Magnetic>
+          </div>
+
+          {/* Scroll cue */}
+          <div className="md:col-span-3 flex md:justify-end items-end">
+            <a href="#about" className="group flex items-center gap-3">
+              <span className="label-mono text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors">
+                Scroll
+              </span>
+              <span className="relative h-12 w-px bg-[var(--hairline)] overflow-hidden block">
+                <motion.span
+                  className="absolute inset-x-0 top-0 h-1/2 bg-[var(--accent)]"
+                  animate={{ y: ["-100%", "200%"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </span>
+            </a>
           </div>
         </motion.div>
-      </motion.div>
+
+      </div>
     </section>
-  )
+  );
 }

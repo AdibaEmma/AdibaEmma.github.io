@@ -1,30 +1,48 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClientWrapper } from "@/components/layout/client-wrapper";
+import { Cursor } from "@/components/ui/cursor";
 import { siteConfig } from "@/lib/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const inter = Inter({ 
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-inter"
+  variable: "--font-fraunces",
+  display: "swap",
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-poppins"
+  variable: "--font-geist",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} - ${siteConfig.title}`,
-    template: `%s | ${siteConfig.name}`
+    default: `${siteConfig.name} — ${siteConfig.title}`,
+    template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: ["Emmanuel Adiba", "Fullstack Developer", "ML/AI", "Web Development", "React", "Next.js", "Node.js"],
+  keywords: [
+    "Emmanuel Adiba",
+    "Software Engineer",
+    "Fullstack Engineer",
+    "ML/AI",
+    "React",
+    "Next.js",
+    "Three.js",
+    "Distributed Systems",
+  ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   openGraph: {
@@ -34,33 +52,14 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: `${siteConfig.url}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: siteConfig.name,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
     creator: "@emmanuel_adiba",
-    images: [`${siteConfig.url}/og-image.png`],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -70,11 +69,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css" />
-      </head>
       <body
-        className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
+        className={`${fraunces.variable} ${geist.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -82,9 +78,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClientWrapper>
-            {children}
-          </ClientWrapper>
+          <Cursor />
+          <div className="noise-overlay" aria-hidden />
+          <ClientWrapper>{children}</ClientWrapper>
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>

@@ -1,21 +1,24 @@
-import { Navbar } from "@/components/layout/navbar"
-import { AboutSection } from "@/components/sections/about"
-import { Footer } from "@/components/layout/footer"
-import { Metadata } from "next"
+import { Navbar } from "@/components/layout/navbar";
+import { AboutSection } from "@/components/sections/about";
+import { ExperienceSection } from "@/components/sections/experience";
+import { Footer } from "@/components/layout/footer";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About - Emmanuel Adiba",
-  description: "Learn more about Emmanuel Adiba, a fullstack engineer with expertise in web development and passion for ML/AI",
-}
+  title: "About",
+  description:
+    "Emmanuel Adiba — fullstack engineer building resilient systems with care.",
+};
 
 export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-20">
+      <main className="relative pt-12 md:pt-16">
         <AboutSection />
+        <ExperienceSection />
       </main>
       <Footer />
     </>
-  )
+  );
 }

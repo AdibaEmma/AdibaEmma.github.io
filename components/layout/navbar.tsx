@@ -1,136 +1,166 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-import { navItems } from "@/lib/constants"
-import { cn } from "@/lib/utils"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
+import { navItems } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true)
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    setMounted(true);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  const toggleMenu = () => setIsOpen(!isOpen)
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
-    <nav
-      className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
-      )}
-    >
-      <div className="container-width">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
-              <span className="text-white font-bold text-sm">EA</span>
-            </div>
-            <span className="text-xl font-bold font-mono">
-              <span className="text-primary">&lt;</span>
-              Emmanuel
-              <span className="text-primary">/&gt;</span>
+    <header className="fixed top-0 inset-x-0 z-50 pointer-events-none">
+      <div className="container-edit pt-5">
+        <motion.nav
+          layout
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className={cn(
+            "pointer-events-auto flex items-center justify-between gap-6 transition-all duration-500",
+            scrolled
+              ? "rounded-full px-5 py-3 backdrop-blur-xl bg-[color-mix(in_oklch,var(--background)_70%,transparent)] border border-hairline"
+              : "px-2 py-3",
+          )}
+        >
+          {/* Wordmark — single mark, no duplicated monogram */}
+          <Link
+            href="/"
+            className="group flex items-center gap-2"
+            aria-label="Home"
+          >
+            <span className="label-mono whitespace-nowrap">
+              <span className="text-[var(--foreground)]">EMMANUEL</span>{" "}
+              <span className="text-[var(--ink-muted)] group-hover:text-[var(--accent)] transition-colors duration-300">
+                / ADIBA
+              </span>
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary relative",
-                  pathname === item.href
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                )}
-              >
-                {item.name}
-                {pathname === item.href && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                  />
-                )}
-              </Link>
-            ))}
-          </div>
+          {/* Desktop nav */}
+          <ul className="hidden md:flex items-center gap-1">
+            {navItems.map((item, i) => {
+              const active = pathname === item.href;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "relative rounded-full px-4 py-2 label-mono uppercase transition-colors",
+                      active
+                        ? "text-[var(--foreground)]"
+                        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]",
+                    )}
+                  >
+                    <span className="text-[var(--muted-foreground)] mr-2 tabular-nums">
+                      0{i + 1}
+                    </span>
+                    {item.name}
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 -z-10 rounded-full bg-[color-mix(in_oklch,var(--foreground)_8%,transparent)]"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
 
-          <div className="flex items-center space-x-4">
+          {/* Right cluster */}
+          <div className="flex items-center gap-2">
             {mounted && (
               <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-lg hover:bg-accent transition-colors"
+                onClick={toggleTheme}
                 aria-label="Toggle theme"
+                className="relative h-9 w-9 rounded-full border border-hairline flex items-center justify-center overflow-hidden hover:bg-[var(--surface)] transition-colors"
               >
-                {theme === "dark" ? (
-                  <Sun className="h-5 w-5" />
-                ) : (
-                  <Moon className="h-5 w-5" />
-                )}
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <span
+                    className="block h-3.5 w-3.5 rounded-full transition-all duration-500"
+                    style={{
+                      background:
+                        theme === "dark" ? "var(--accent)" : "var(--foreground)",
+                      boxShadow:
+                        theme === "dark"
+                          ? "inset -3px -2px 0 0 var(--background)"
+                          : "none",
+                    }}
+                  />
+                </span>
               </button>
             )}
 
+            {/* Mobile toggle */}
             <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 rounded-lg hover:bg-accent transition-colors"
-              aria-label="Toggle menu"
+              onClick={() => setIsOpen((v) => !v)}
+              aria-label="Menu"
+              className="md:hidden h-9 w-9 rounded-full border border-hairline flex items-center justify-center"
             >
-              {isOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              <span className="relative block w-4 h-3">
+                <span
+                  className={cn(
+                    "absolute left-0 right-0 h-px bg-current transition-transform duration-300",
+                    isOpen ? "top-1/2 rotate-45" : "top-0",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 right-0 h-px bg-current transition-transform duration-300",
+                    isOpen ? "top-1/2 -rotate-45" : "bottom-0",
+                  )}
+                />
+              </span>
             </button>
           </div>
-        </div>
+        </motion.nav>
       </div>
 
+      {/* Mobile drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-background/95 backdrop-blur-md border-b border-border"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-auto md:hidden mx-5 mt-3 rounded-3xl border border-hairline bg-[var(--background)]/95 backdrop-blur-xl"
           >
-            <div className="container-width py-4 space-y-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                    pathname === item.href
-                      ? "text-primary"
-                      : "text-muted-foreground"
-                  )}
-                >
-                  {item.name}
-                </Link>
+            <ul className="p-4 space-y-1">
+              {navItems.map((item, i) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-between rounded-2xl px-4 py-3 hover:bg-[var(--surface)] transition-colors"
+                  >
+                    <span className="font-display text-2xl">{item.name}</span>
+                    <span className="label-mono text-[var(--muted-foreground)]">
+                      0{i + 1}
+                    </span>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
-  )
+    </header>
+  );
 }

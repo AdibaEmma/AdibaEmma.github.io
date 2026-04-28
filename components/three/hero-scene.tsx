@@ -1,30 +1,40 @@
 "use client";
 
 /**
- * HeroScene — The Pillars.
+ * HeroScene — The Pillars, interactive.
  *
- * A wireframe tetrahedron sits at the center of the scene. Four vertices,
- * four edges per face, six edges total — the geometry that exactly matches
- * the four-pillar identity (Engineer · Builder · Thinker · Founder).
+ * A wireframe tetrahedron with four vertex nodes — one per pillar
+ * (Engineer · Builder · Thinker · Founder). Each vertex is hover-aware and
+ * click-aware: hover surfaces the pillar label as an HTML billboard, click
+ * fires `onVertexClick(pillar)` which the hero section uses to open the
+ * Pillar overlay.
  *
- * Each vertex is a small emissive node that pulses on its own phase so the
- * four pillars feel alive and independent. Particles drift around the form
- * for atmosphere. Bloom is dialled in tight: only the vertex nodes glow,
- * not the edges, so the scene reads as quiet and architectural rather than
- * a luminous blob.
+ * When a pillar is focused, mouse parallax pauses, auto-rotation pauses,
+ * the group quat-lerps so the focused vertex faces the camera, and the
+ * camera dollies in for a closer pose.
+ *
+ * Bloom is dialled tight (vertex cores only) so the form stays
+ * architectural rather than luminous.
  */
 
-import { useRef, useMemo, useEffect, useState, Suspense } from "react";
+import {
+  useRef,
+  useMemo,
+  useEffect,
+  useState,
+  Suspense,
+  useCallback,
+} from "react";
 import type { ReactNode } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Float, Html } from "@react-three/drei";
 import {
   EffectComposer,
   Bloom,
   Vignette,
 } from "@react-three/postprocessing";
 import * as THREE from "three";
-import { PILLARS, pillarUppercase } from "@/lib/brand";
+import { PILLARS, pillarUppercase, type Pillar } from "@/lib/brand";
 
 const ACCENT = "#C7F65E";
 const INK = "#F5F1E6";
@@ -36,14 +46,24 @@ const PARTICLE_OUTER_RADIUS = 4.4;
 const CONNECTION_THRESHOLD = 1.05;
 const MAX_CONNECTIONS = 400;
 
+const CAMERA_REST_Z = 8.5;
+const CAMERA_FOCUS_Z = 6;
+
+type SceneProps = {
+  onVertexClick?: (pillar: Pillar) => void;
+  focusedPillar?: Pillar | null;
+};
+
 // ─── Pillar tetrahedron ──────────────────────────────────────────────────────
-function PillarTetrahedron() {
+function PillarTetrahedron({ onVertexClick, focusedPillar }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null!);
   const vertexRefs = useRef<(THREE.Mesh | null)[]>([]);
   const ringRefs = useRef<(THREE.Mesh | null)[]>([]);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
-  // Regular tetrahedron — four vertices on a unit cube's alternating corners
-  const SIZE = 1.55;
+  // Regular tetrahedron — four vertices on a unit cube's alternating corners.
+  // Index → pillar mapping is fixed: PILLARS[i] is the pillar at vertex i.
+  const SIZE = 1.15;
   const vertices = useMemo(
     () => [
       new THREE.Vector3(SIZE, SIZE, SIZE),
@@ -54,7 +74,6 @@ function PillarTetrahedron() {
     [],
   );
 
-  // Six edges — every pair connected
   const edgesPositions = useMemo(() => {
     const pairs: Array<[number, number]> = [
       [0, 1],
@@ -71,66 +90,55 @@ function PillarTetrahedron() {
     return new Float32Array(arr);
   }, [vertices]);
 
-  // Faint translucent face hints
-  const faceGeom = useMemo(() => {
-    const indexes: Array<[number, number, number]> = [
-      [0, 1, 2],
-      [0, 1, 3],
-      [0, 2, 3],
-      [1, 2, 3],
-    ];
-    const positions: number[] = [];
-    indexes.forEach(([a, b, c]) => {
-      positions.push(
-        ...vertices[a].toArray(),
-        ...vertices[b].toArray(),
-        ...vertices[c].toArray(),
-      );
-    });
-    const g = new THREE.BufferGeometry();
-    g.setAttribute(
-      "position",
-      new THREE.BufferAttribute(new Float32Array(positions), 3),
-    );
-    g.computeVertexNormals();
-    return g;
-  }, [vertices]);
+  // Reusable temp objects so we don't allocate per-frame.
+  const targetQuat = useMemo(() => new THREE.Quaternion(), []);
+  const focusedAxis = useMemo(() => new THREE.Vector3(0, 0, 1), []);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
-    if (groupRef.current) {
+    if (!groupRef.current) return;
+
+    if (focusedPillar) {
+      // Quaternion lerp so the focused vertex's local direction lands at +Z
+      const idx = PILLARS.indexOf(focusedPillar);
+      const v = vertices[idx];
+      targetQuat.setFromUnitVectors(
+        v.clone().normalize(),
+        focusedAxis,
+      );
+      const k = 1 - Math.exp(-delta * 5);
+      groupRef.current.quaternion.slerp(targetQuat, k);
+    } else {
+      // Resume the time-driven editorial rotation
       groupRef.current.rotation.y = t * 0.07;
       groupRef.current.rotation.x = Math.sin(t * 0.1) * 0.18;
     }
-    // Each vertex pulses on its own phase — the four pillars, alive
+
+    // Vertex pulses — always alive, even when focused
     vertexRefs.current.forEach((m, i) => {
       if (!m) return;
-      const pulse = 1 + Math.sin(t * 1.3 + i * (Math.PI / 2)) * 0.18;
+      const baseScale = hoveredIdx === i || PILLARS.indexOf(focusedPillar ?? ('' as Pillar)) === i
+        ? 1.6
+        : 1;
+      const pulse = baseScale * (1 + Math.sin(t * 1.3 + i * (Math.PI / 2)) * 0.18);
       m.scale.setScalar(pulse);
     });
     ringRefs.current.forEach((m, i) => {
       if (!m) return;
-      const pulse = 1 + Math.sin(t * 1.3 + i * (Math.PI / 2) + 0.6) * 0.4;
+      const isActive =
+        hoveredIdx === i ||
+        PILLARS.indexOf(focusedPillar ?? ('' as Pillar)) === i;
+      const baseScale = isActive ? 1.6 : 1;
+      const pulse = baseScale * (1 + Math.sin(t * 1.3 + i * (Math.PI / 2) + 0.6) * 0.4);
       m.scale.setScalar(pulse);
       const mat = m.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.25 - Math.sin(t * 1.3 + i * (Math.PI / 2)) * 0.12;
+      const baseOpacity = isActive ? 0.45 : 0.25;
+      mat.opacity = baseOpacity - Math.sin(t * 1.3 + i * (Math.PI / 2)) * 0.12;
     });
   });
 
   return (
     <group ref={groupRef}>
-      {/* Translucent face hints — barely visible, give the form depth */}
-      <mesh geometry={faceGeom}>
-        <meshBasicMaterial
-          color={ACCENT}
-          transparent
-          opacity={0.025}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-
-      {/* Wireframe edges */}
       <lineSegments>
         <bufferGeometry>
           <bufferAttribute
@@ -138,40 +146,97 @@ function PillarTetrahedron() {
             args={[edgesPositions, 3]}
           />
         </bufferGeometry>
-        <lineBasicMaterial
-          color={ACCENT}
-          transparent
-          opacity={0.55}
-          toneMapped={false}
-        />
+        <lineBasicMaterial color={ACCENT} transparent opacity={0.42} />
       </lineSegments>
 
-      {/* Four vertex nodes — the pillars */}
-      {vertices.map((v, i) => (
-        <group key={i} position={v.toArray()}>
-          {/* Halo ring */}
-          <mesh ref={(el) => void (ringRefs.current[i] = el)}>
-            <sphereGeometry args={[0.18, 24, 24]} />
-            <meshBasicMaterial
-              color={ACCENT}
-              transparent
-              opacity={0.2}
-              toneMapped={false}
-              depthWrite={false}
-            />
-          </mesh>
-          {/* Solid emissive core */}
-          <mesh ref={(el) => void (vertexRefs.current[i] = el)}>
-            <sphereGeometry args={[0.085, 24, 24]} />
-            <meshBasicMaterial color={ACCENT} toneMapped={false} />
-          </mesh>
-        </group>
-      ))}
+      {vertices.map((v, i) => {
+        const pillar = PILLARS[i];
+        const hovered = hoveredIdx === i;
+        return (
+          <group
+            key={i}
+            position={v.toArray()}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              setHoveredIdx(i);
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={(e) => {
+              e.stopPropagation();
+              setHoveredIdx(null);
+              document.body.style.cursor = "";
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onVertexClick?.(pillar);
+            }}
+          >
+            {/* Invisible larger sphere — fattens the pickable area so
+                vertices are easy to click without bloating their visual size */}
+            <mesh visible={false}>
+              <sphereGeometry args={[0.34, 12, 12]} />
+              <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+
+            <mesh ref={(el) => void (ringRefs.current[i] = el)}>
+              <sphereGeometry args={[0.14, 24, 24]} />
+              <meshBasicMaterial
+                color={ACCENT}
+                transparent
+                opacity={0.12}
+                depthWrite={false}
+              />
+            </mesh>
+
+            <mesh ref={(el) => void (vertexRefs.current[i] = el)}>
+              <sphereGeometry args={[0.07, 24, 24]} />
+              <meshBasicMaterial color={ACCENT} toneMapped={false} />
+            </mesh>
+
+            {hovered && (
+              <Html
+                center
+                position={[0, 0.32, 0]}
+                zIndexRange={[100, 0]}
+                style={{ pointerEvents: "none" }}
+              >
+                <span
+                  style={{
+                    fontFamily: "ui-monospace, monospace",
+                    fontSize: "0.7rem",
+                    letterSpacing: "0.2em",
+                    color: ACCENT,
+                    background: "rgba(10, 11, 10, 0.78)",
+                    border: `1px solid ${ACCENT}33`,
+                    padding: "0.35rem 0.6rem",
+                    borderRadius: "999px",
+                    whiteSpace: "nowrap",
+                    backdropFilter: "blur(6px)",
+                  }}
+                >
+                  {pillarUppercase(pillar)}
+                </span>
+              </Html>
+            )}
+          </group>
+        );
+      })}
     </group>
   );
 }
 
-// ─── Particle network (lighter, sparser than before) ─────────────────────────
+// ─── Camera rig — dollies in on focus ────────────────────────────────────────
+function CameraRig({ focused }: { focused: boolean }) {
+  const { camera } = useThree();
+  useFrame((_, delta) => {
+    const targetZ = focused ? CAMERA_FOCUS_Z : CAMERA_REST_Z;
+    const k = 1 - Math.exp(-delta * 4);
+    camera.position.z += (targetZ - camera.position.z) * k;
+  });
+  return null;
+}
+
+// ─── Particle network ────────────────────────────────────────────────────────
 function ParticleNetwork() {
   const pointsRef = useRef<THREE.Points>(null!);
   const linesRef = useRef<THREE.LineSegments>(null!);
@@ -277,12 +342,11 @@ function ParticleNetwork() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.025}
+          size={0.02}
           color={ACCENT}
           transparent
-          opacity={0.7}
+          opacity={0.45}
           sizeAttenuation
-          toneMapped={false}
           depthWrite={false}
         />
       </points>
@@ -298,8 +362,7 @@ function ParticleNetwork() {
         <lineBasicMaterial
           color={ACCENT}
           transparent
-          opacity={0.1}
-          toneMapped={false}
+          opacity={0.07}
           depthWrite={false}
         />
       </lineSegments>
@@ -307,8 +370,14 @@ function ParticleNetwork() {
   );
 }
 
-// ─── Mouse parallax ──────────────────────────────────────────────────────────
-function MouseParallax({ children }: { children: ReactNode }) {
+// ─── Mouse parallax — pauses when a pillar is focused ────────────────────────
+function MouseParallax({
+  paused,
+  children,
+}: {
+  paused: boolean;
+  children: ReactNode;
+}) {
   const groupRef = useRef<THREE.Group>(null!);
   const target = useRef({ x: 0, y: 0 });
 
@@ -323,63 +392,69 @@ function MouseParallax({ children }: { children: ReactNode }) {
 
   useFrame(() => {
     if (!groupRef.current) return;
+    const tx = paused ? 0 : target.current.x;
+    const ty = paused ? 0 : target.current.y;
     groupRef.current.rotation.y +=
-      (target.current.x * 0.18 - groupRef.current.rotation.y) * 0.04;
+      (tx * 0.18 - groupRef.current.rotation.y) * 0.04;
     groupRef.current.rotation.x +=
-      (target.current.y * 0.12 - groupRef.current.rotation.x) * 0.04;
+      (ty * 0.12 - groupRef.current.rotation.x) * 0.04;
   });
 
   return <group ref={groupRef}>{children}</group>;
 }
 
-// ─── Scene ───────────────────────────────────────────────────────────────────
-function Scene() {
+// ─── Scene root ──────────────────────────────────────────────────────────────
+function Scene({ onVertexClick, focusedPillar }: SceneProps) {
+  const focused = !!focusedPillar;
   return (
     <>
       <ambientLight intensity={0.3} />
       <directionalLight position={[3, 4, 5]} intensity={0.4} color={INK} />
       <directionalLight position={[-3, -2, -2]} intensity={0.2} color={ACCENT} />
 
-      <MouseParallax>
-        <Float speed={0.9} rotationIntensity={0.08} floatIntensity={0.15}>
-          <PillarTetrahedron />
+      <CameraRig focused={focused} />
+
+      <MouseParallax paused={focused}>
+        <Float speed={0.9} rotationIntensity={focused ? 0.02 : 0.08} floatIntensity={0.15}>
+          <PillarTetrahedron
+            onVertexClick={onVertexClick}
+            focusedPillar={focusedPillar}
+          />
         </Float>
         <ParticleNetwork />
       </MouseParallax>
 
-      {/* Bloom only on the bright vertex spheres + a faint vignette. */}
       <EffectComposer multisampling={0}>
         <Bloom
-          intensity={0.55}
-          luminanceThreshold={0.55}
-          luminanceSmoothing={0.6}
+          intensity={0.22}
+          luminanceThreshold={0.85}
+          luminanceSmoothing={0.4}
           mipmapBlur
         />
-        <Vignette eskil={false} offset={0.3} darkness={0.6} />
+        <Vignette eskil={false} offset={0.4} darkness={0.5} />
       </EffectComposer>
     </>
   );
 }
 
 // ─── Static SVG fallback (reduced motion / mobile) ───────────────────────────
-function StaticFallback() {
-  // Project tetrahedron vertices to 2D for the SVG.
+function StaticFallback({ onVertexClick }: SceneProps) {
   const verts2D: Array<[number, number]> = [
     [200, 90],
     [110, 240],
     [290, 240],
     [200, 195],
   ];
+  const interactive = !!onVertexClick;
   return (
     <div
-      aria-hidden
       style={{
         position: "absolute",
         inset: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        pointerEvents: "none",
+        pointerEvents: interactive ? "auto" : "none",
       }}
     >
       <svg
@@ -396,7 +471,6 @@ function StaticFallback() {
           </radialGradient>
         </defs>
 
-        {/* edges */}
         {[
           [0, 1],
           [0, 2],
@@ -417,24 +491,51 @@ function StaticFallback() {
           />
         ))}
 
-        {/* vertices with halo + core + label */}
-        {verts2D.map((v, i) => (
-          <g key={i}>
-            <circle cx={v[0]} cy={v[1]} r="20" fill="url(#vertGlow)" />
-            <circle cx={v[0]} cy={v[1]} r="4" fill={ACCENT} />
-            <text
-              x={v[0]}
-              y={v[1] - 24}
-              fill={INK}
-              fontSize="9"
-              fontFamily="ui-monospace, monospace"
-              textAnchor="middle"
-              letterSpacing="2"
+        {verts2D.map((v, i) => {
+          const pillar = PILLARS[i];
+          return (
+            <g
+              key={i}
+              role={interactive ? "button" : undefined}
+              aria-label={interactive ? `Open ${pillarUppercase(pillar)}` : undefined}
+              tabIndex={interactive ? 0 : -1}
+              onClick={interactive ? () => onVertexClick?.(pillar) : undefined}
+              onKeyDown={
+                interactive
+                  ? (e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        onVertexClick?.(pillar);
+                      }
+                    }
+                  : undefined
+              }
+              style={{ cursor: interactive ? "pointer" : "default", outline: "none" }}
             >
-              {pillarUppercase(PILLARS[i]).slice(0, 3)}
-            </text>
-          </g>
-        ))}
+              {/* Larger transparent hit target */}
+              <circle
+                cx={v[0]}
+                cy={v[1]}
+                r="32"
+                fill="transparent"
+                pointerEvents="all"
+              />
+              <circle cx={v[0]} cy={v[1]} r="20" fill="url(#vertGlow)" />
+              <circle cx={v[0]} cy={v[1]} r="4" fill={ACCENT} />
+              <text
+                x={v[0]}
+                y={v[1] - 24}
+                fill={INK}
+                fontSize="9"
+                fontFamily="ui-monospace, monospace"
+                textAnchor="middle"
+                letterSpacing="2"
+              >
+                {pillarUppercase(pillar).slice(0, 3)}
+              </text>
+            </g>
+          );
+        })}
 
         <rect width="400" height="320" fill={VOID} fillOpacity="0" />
       </svg>
@@ -467,12 +568,18 @@ function useIsMobile() {
 }
 
 // ─── Main export ─────────────────────────────────────────────────────────────
-export function HeroScene() {
+export function HeroScene({ onVertexClick, focusedPillar }: SceneProps) {
   const reduced = useReducedMotion();
   const isMobile = useIsMobile();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  // Stable handler so child components don't re-mount when parent rerenders.
+  const handleClick = useCallback(
+    (p: Pillar) => onVertexClick?.(p),
+    [onVertexClick],
+  );
 
   if (!mounted || reduced || isMobile) {
     return (
@@ -484,7 +591,7 @@ export function HeroScene() {
           minHeight: 400,
         }}
       >
-        <StaticFallback />
+        <StaticFallback onVertexClick={handleClick} />
       </div>
     );
   }
@@ -505,11 +612,11 @@ export function HeroScene() {
           powerPreference: "high-performance",
         }}
         dpr={[1, 2]}
-        camera={{ position: [0, 0, 6], fov: 35 }}
+        camera={{ position: [0, 0, CAMERA_REST_Z], fov: 32 }}
         style={{ background: "transparent" }}
       >
         <Suspense fallback={null}>
-          <Scene />
+          <Scene onVertexClick={handleClick} focusedPillar={focusedPillar} />
         </Suspense>
       </Canvas>
     </div>

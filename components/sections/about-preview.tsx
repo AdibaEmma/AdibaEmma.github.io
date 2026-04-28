@@ -30,12 +30,13 @@ export function AboutPreview() {
           <div className="md:col-span-5 md:sticky md:top-32 md:self-start">
             <Reveal>
               <h2 className="display-xl font-display">
-                Engineer<span className="accent-text">.</span>
+                Engineer.
                 <br />
-                <span className="italic">Builder</span>
-                <span className="accent-text">.</span>
+                <span className="italic">Builder</span>.
                 <br />
-                Thinker<span className="accent-text">.</span>
+                Thinker.
+                <br />
+                <span className="italic accent-text">Founder</span>.
               </h2>
             </Reveal>
 
@@ -55,27 +56,27 @@ export function AboutPreview() {
 
             <Reveal delay={0.4} className="mt-12 grid grid-cols-2 gap-6 max-w-xl">
               <div>
-                <p className="display-lg font-display accent-text">4+</p>
+                <p className="display-lg font-display">4+</p>
                 <p className="label-mono text-[var(--muted-foreground)] mt-1">
                   Years shipping production software
                 </p>
               </div>
               <div>
-                <p className="display-lg font-display accent-text">15K+</p>
+                <p className="display-lg font-display">15K+</p>
                 <p className="label-mono text-[var(--muted-foreground)] mt-1">
                   Users served by systems I&rsquo;ve built
                 </p>
               </div>
               <div>
-                <p className="display-lg font-display accent-text">48h</p>
+                <p className="display-lg font-display">3</p>
                 <p className="label-mono text-[var(--muted-foreground)] mt-1">
-                  Door-to-door GearDockGH delivery in Bolgatanga
+                  Solo ventures shipped &mdash; in production
                 </p>
               </div>
               <div>
-                <p className="display-lg font-display accent-text">∞</p>
+                <p className="display-lg font-display">48h</p>
                 <p className="label-mono text-[var(--muted-foreground)] mt-1">
-                  Curiosity about ML &amp; psychology
+                  Door-to-door GearDockGH delivery in Bolgatanga
                 </p>
               </div>
             </Reveal>

@@ -12,7 +12,7 @@ export function CTASection() {
 
       <div className="container-edit relative">
         <div className="flex items-baseline justify-between mb-12">
-          <p className="section-tag">(Contact ／ 05)</p>
+          <p className="section-tag">(Contact ／ 06)</p>
           <p className="eyebrow hidden md:block">— Inbox open</p>
         </div>
 
@@ -29,7 +29,7 @@ export function CTASection() {
         <Reveal delay={0.2} className="mt-12 max-w-xl">
           <p className="text-lg text-[var(--foreground)]/75">
             I take on a small number of engagements per quarter — engineering
-            for ambitious teams who care about getting the details right.
+            for teams that care about the details.
           </p>
         </Reveal>
 

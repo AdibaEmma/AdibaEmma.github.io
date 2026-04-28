@@ -193,7 +193,7 @@ export const projects: Project[] = [
     role: 'Lead Engineer at GTN',
     category: 'fullstack',
     image: '/images/works/vacation-branson.png',
-    featured: true,
+    featured: false,
     impact: 'Client product · GTN LLC · resort partnerships live',
     year: '2024 →',
   },
@@ -208,7 +208,7 @@ export const projects: Project[] = [
     role: 'Engineer at GTN',
     category: 'backend',
     image: '/images/works/compliance-scorecard.png',
-    featured: true,
+    featured: false,
     impact: 'Client product · GTN LLC · MCP server in flight',
     year: '2025',
   },
@@ -225,7 +225,7 @@ export const projects: Project[] = [
     role: 'Solo build',
     category: 'fullstack',
     image: '',
-    featured: true,
+    featured: false,
     impact: 'Exploratory · no users yet',
     year: '2024',
   },
@@ -240,7 +240,7 @@ export const projects: Project[] = [
     role: 'Solo build',
     category: 'devtools',
     image: '',
-    featured: true,
+    featured: false,
     impact: 'Exploratory · craft work',
     year: '2024',
   },
@@ -255,20 +255,20 @@ export const projects: Project[] = [
     role: 'Solo build',
     category: 'fullstack',
     image: '',
-    featured: true,
+    featured: false,
     impact: 'Exploratory · learning project',
     year: '2024',
   },
 ]
 
+// All entries are noun phrases so the label "(Currently) X" reads grammatically.
 export const roles = [
   'Software Engineer',
   'Distributed Systems Builder',
-  'Fullstack Engineer',
   'Backend Architect',
-  'ML/AI Curious',
-  'Product-minded',
-  'Lifelong Learner',
+  'ML/AI Practitioner',
+  'Product Engineer',
+  'Founder',
 ]
 
 // Combined into a single chronological journey (oldest → newest)
@@ -307,9 +307,9 @@ export const journey = [
     summary:
       'Two formative years on the JVM — Kotlin, Java, Spring Boot — building real-time systems and a microservice trading engine that moved real revenue.',
     bullets: [
-      'Pioneered a tech news aggregator on Kotlin / Spring Boot / PostgreSQL — 15,000+ users with real-time delivery',
-      'Designed ORM diagrams and orchestrated database migrations using DrawIO and Flyway',
-      'Engineered a high-performing microservice trading engine in Java + Redis — 20% monthly revenue lift',
+      'Built a real-time tech news aggregator on Kotlin / Spring Boot / PostgreSQL serving 15,000+ users',
+      'Owned the schema design and migration story end-to-end — DrawIO for diagrams, Flyway for production rollouts',
+      'Engineered a microservice trading engine in Java + Redis that became the team\u2019s revenue spine',
     ],
     technologies: ['Kotlin', 'Spring Boot', 'Java', 'PostgreSQL', 'Redis', 'Flyway'],
     type_label: 'Full-time',
@@ -328,9 +328,9 @@ export const journey = [
     summary:
       'Coordinated cross-functional delivery on a CRM platform. First taste of running a project end-to-end — leadership, scope, documentation, ship dates.',
     bullets: [
-      'Coordinated a cross-functional engineering team to deliver CRM software ahead of schedule',
-      'Pioneered a product feature that drove a 40% surge in user engagement',
-      'Streamlined documentation and reduced required meetings by 70%',
+      'Coordinated cross-functional delivery on the CRM platform — shipped the v1 release ahead of plan',
+      'Designed and shipped the engagement-loop feature that became the team\u2019s default daily-driver workflow',
+      'Established the documentation playbook the team still uses; replaced status meetings with async updates',
     ],
     technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'React', 'Docker'],
     type_label: 'Full-time',
@@ -350,8 +350,8 @@ export const journey = [
       "A short, intense fintech sprint — KYC and authentication for SendAfrika's flagship product. NestJS, MongoDB, money on the wire.",
     bullets: [
       "Built authentication and KYC modules for SendAfrika's flagship product on NestJS + MongoDB",
-      '40% increase in user onboarding efficiency',
-      'Established structured documentation and standardized testing — 30% team productivity lift',
+      'Delivered the full onboarding flow in a six-week sprint — single-session verification, no multi-day handoffs',
+      'Authored the testing and documentation conventions the team adopted across services',
     ],
     technologies: ['NestJS', 'MongoDB', 'TypeScript', 'JWT', 'KYC APIs'],
     type_label: 'Contract',
@@ -370,9 +370,9 @@ export const journey = [
     summary:
       'Leading the OITs Web project — React, NestJS, MySQL, WebSockets. Building real-time UX, hardening engineering practices, and shipping more in less time.',
     bullets: [
-      'Spearheading OITs Web on React, NestJS, MySQL, and WebSockets — 40% increase in deadline efficiency',
-      'Established a structured documentation process and standardized testing methods',
-      'Lifted team productivity by 30% and cut feature dev time by 25%',
+      'Lead engineer on OITs Web — React, NestJS, MySQL, WebSockets — releases on a predictable bi-weekly cadence',
+      'Refactored Stripe Connect across Card, ACH, and Check into a SOLID service layer; deferred-transfer logic now prevents premature affiliate payouts',
+      'Crafting an MCP server for Compliance Scorecard so the assistant reasons over the live compliance graph, not a static export',
     ],
     technologies: ['React', 'NestJS', 'MySQL', 'WebSockets', 'TypeScript'],
     type_label: 'Remote',

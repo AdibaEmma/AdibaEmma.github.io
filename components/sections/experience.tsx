@@ -56,7 +56,7 @@ export function ExperienceSection() {
 
       <div className="container-edit relative">
         <div className="flex items-baseline justify-between mb-12 md:mb-20">
-          <p className="section-tag">(Journey ／ 04)</p>
+          <p className="section-tag">(Journey ／ 05)</p>
           <p className="eyebrow hidden md:block">
             — {journey.length} chapters · 2016 → now
           </p>

@@ -236,9 +236,9 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 70% 50%, var(--accent-glow) 0%, transparent 55%),
-      radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 50%);
-    filter: blur(40px);
+      radial-gradient(circle at 78% 50%, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 45%),
+      radial-gradient(circle at 20% 85%, color-mix(in srgb, var(--accent) 3%, transparent) 0%, transparent 45%);
+    filter: blur(60px);
   }
 
   /* Diagonal shimmer underline */

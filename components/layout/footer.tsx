@@ -25,9 +25,9 @@ export function Footer() {
           <h2 className="display-mega font-display italic text-[var(--foreground)]/90 leading-none">
             Let&rsquo;s build
             <br />
-            <span className="not-italic accent-text">something quietly</span>
+            <span className="not-italic accent-text">something</span>
             <br />
-            extraordinary.
+            that lasts.
           </h2>
         </Reveal>
       </div>
@@ -37,7 +37,7 @@ export function Footer() {
         <Marquee
           items={[
             <span key="a" className="font-display italic text-3xl md:text-5xl">
-              available · q2 2026
+              available now
             </span>,
             <span key="b" className="font-display text-3xl md:text-5xl">
               {siteConfig.email}

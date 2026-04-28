@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -232,9 +232,7 @@ export function WorkSection() {
 
         <Reveal>
           <h2 className="display-xl font-display mb-12 md:mb-20 max-w-4xl">
-            Things I&rsquo;ve <span className="italic accent-text">shipped</span> —
-            <br />
-            quietly &amp; with care.
+            Things I&rsquo;ve <span className="italic accent-text">shipped</span>.
           </h2>
         </Reveal>
 

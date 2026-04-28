@@ -62,7 +62,7 @@ export default function NowPage() {
                 "Designing the new org structure for CashCupGolf",
                 "Sketching Wayve's onboarding flow with my partner",
                 "Re-reading Marcus Aurelius — Meditations, Book IV",
-                "Mentoring two engineers from the Turntabl alumni network",
+                "Mentoring two engineers from GTN",
               ].map((item, i) => (
                 <li
                   key={i}

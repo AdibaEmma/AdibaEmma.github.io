@@ -144,12 +144,17 @@ export function HeroSection({
         <rect width="100%" height="100%" fill="url(#hg)" />
       </svg>
 
-      <div className="container-edit relative z-10 min-h-[100svh] flex flex-col justify-between pt-32 pb-12">
+      {/* The container is pointer-events: none so vertex clicks land on the
+          canvas behind it. Each interactive child re-enables events with
+          pointer-events-auto. Without this, the col-span-5 reserved gutter
+          (and the gap area in the grid) would swallow clicks meant for the
+          tetrahedron vertices. */}
+      <div className="container-edit relative z-10 min-h-[100svh] flex flex-col justify-between pt-32 pb-12 pointer-events-none">
         {/* Top eyebrow — index left, availability right */}
         <motion.div
           {...fade}
           transition={{ duration: 1, delay: 0.2 }}
-          className="flex items-start justify-between gap-6"
+          className="flex items-start justify-between gap-6 pointer-events-auto"
         >
           <div className="section-tag">
             <span>(Index ／ 01)</span>
@@ -163,10 +168,12 @@ export function HeroSection({
           </div>
         </motion.div>
 
-        {/* Center: massive editorial type */}
+        {/* Center: massive editorial type. Only the col-span-7 text column
+            re-enables events; the right side passes clicks through to the
+            canvas where vertices live. */}
         <div className="relative flex-1 flex items-center">
           <div className="w-full grid md:grid-cols-12 items-center gap-6">
-            <div className="md:col-span-7">
+            <div className="md:col-span-7 pointer-events-auto">
               {/* Pillar eyebrow — demoted from accent to muted ink. The
                   tetrahedron carries the accent for this concept now. */}
               <motion.p
@@ -225,13 +232,12 @@ export function HeroSection({
               </motion.div>
             </div>
 
-            <div className="md:col-span-5 hidden md:block">
-              {/* Reserved space — sphere lives in the canvas behind */}
-            </div>
+            {/* Right column intentionally empty — the canvas vertices live
+                here. No DOM child means no click-catching surface. */}
           </div>
         </div>
 
-        {/* Bottom row */}
+        {/* Bottom row — re-enable events on each interactive cell */}
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -239,7 +245,7 @@ export function HeroSection({
           className="grid md:grid-cols-12 gap-6 items-end pt-6 border-t border-hairline"
         >
           {/* Role rotator — all noun phrases now, so "(Currently) X" reads */}
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 pointer-events-auto">
             <p className="eyebrow mb-2">(Currently)</p>
             <div className="font-display text-2xl md:text-3xl h-10 overflow-hidden">
               <motion.div
@@ -256,7 +262,7 @@ export function HeroSection({
 
           {/* CTAs — primary sits on dark ground (canvas is masked left-of-7),
               so contrast is preserved */}
-          <div className="md:col-span-4 flex flex-wrap items-center gap-3">
+          <div className="md:col-span-4 flex flex-wrap items-center gap-3 pointer-events-auto">
             <Magnetic strength={0.25}>
               <Link href="/contact" className="btn-magnetic btn-magnetic--primary">
                 <span>Hire me</span>
@@ -272,7 +278,7 @@ export function HeroSection({
           </div>
 
           {/* Scroll cue */}
-          <div className="md:col-span-3 flex md:justify-end items-end">
+          <div className="md:col-span-3 flex md:justify-end items-end pointer-events-auto">
             <a href="#about" className="group flex items-center gap-3">
               <span className="label-mono text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors">
                 Scroll
